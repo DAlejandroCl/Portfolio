@@ -83,7 +83,7 @@ Astro Content Collections validated with Zod:
 | FR-04 | Every metric shows its margin note (source, verification date); on small screens the note appears under the paragraph |
 | FR-05 | Project cards and pages are rendered from content collections |
 | FR-06 | All external links open with `rel="noopener noreferrer"` and have a clear accessible name |
-| FR-07 | Essential content and navigation work without JavaScript; JavaScript only enhances (theme switch, project filter on the archive) |
+| FR-07 | Essential content and navigation work without JavaScript; JavaScript only enhances (theme switch) |
 | FR-08 | A not-found page offers links home in both languages |
 
 ## 7. Non-functional requirements
@@ -117,7 +117,7 @@ Astro Content Collections validated with Zod:
 
 ## 9. Testing scope
 
-Vitest for utilities (i18n helpers, schema validation, link rules) and React islands with Testing Library; Playwright for navigation, language switch, theme persistence, CV download and JavaScript-disabled reading; axe-core on every route, both themes and both languages.
+Vitest for utilities (i18n helpers, schema validation, link rules) and React components with Testing Library; Playwright for navigation, language switch, theme persistence, CV download and JavaScript-disabled reading; axe-core on every route, both themes and both languages.
 
 ## 10. Out of scope at launch
 
