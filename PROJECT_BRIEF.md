@@ -8,16 +8,16 @@ Verification date: 2026-11-03. Method: shallow clones of each repository, local 
 ### 1.1 Positioning
 "Frontend Software Engineer" (React, TypeScript, frontend architecture and software quality). The professional history stays identical to the CV: independent projects since September 2022, Fundación de Levi (Feb–Aug 2022), IEEE co-authored publication as research evidence. No seniority, clients or commercial results are implied.
 
-### 1.2 Stack: Astro with React islands (approved by the owner, 2026-11-03)
+### 1.2 Stack: Astro with React components (approved by the owner, 2026-11-03)
 
 The owner asked for React unless Astro is clearly the better fit. Astro is the better fit **for this specific site**, for four reasons:
 
 1. **Performance targets.** The brief sets Lighthouse >= 95 in all four categories, LCP <= 2.5 s and CLS <= 0.1. Astro ships no JavaScript by default; a React SPA sends the runtime to every visitor, including those who only read static text.
 2. **Bilingual SEO.** Every route needs its own server-rendered `<title>`, canonical URL, `hreflang` and Open Graph tags, which social previews and crawlers read without running JavaScript. Astro provides i18n routing and sitemap generation natively. In plain React this requires adding a prerendering framework (Next.js or React Router framework mode), which is more machinery than a content site needs.
 3. **Evidence checks at build time.** The site's differentiator is that every technical claim carries a source and a verification date. Astro Content Collections validate this with Zod during the build, so an unsourced metric fails the build.
-4. **React is still used.** Interactive pieces and reusable UI are written as React + TypeScript components and hydrated only where interaction justifies it. The same tooling applies: TypeScript strict, Zod, Vitest, Testing Library, Playwright.
+4. **React is still used.** All UI components are written as React + TypeScript and rendered to static HTML at build time. A component is hydrated (an island) only where interaction justifies loading the React runtime; none is planned at launch, and the theme switch uses a small inline script for that reason. The same tooling applies: TypeScript strict, Zod, Vitest, Testing Library, Playwright.
 
-Trade-off, stated honestly: the portfolio repository will contain less React than a pure React app. The React evidence lives in Cocktail Lab, Streamline, Weather Finder and Calorie Tracker. Choosing the right tool for a static content site is itself a demonstration of the "Technical Thinking" strength.
+Trade-off, stated honestly: the portfolio repository combines Astro pages with React components, but ships no client-side React at launch, so it shows less React behavior (state, effects) than a pure React app. The React evidence lives in Cocktail Lab, Streamline, Weather Finder and Calorie Tracker. Choosing the right tool for a static content site is itself a demonstration of the "Technical Thinking" strength.
 
 If the owner prefers a React-only site, the alternative is React Router 7 (framework mode with prerendering) plus Tailwind, at the cost of a heavier JavaScript payload and more configuration for i18n and sitemap.
 
@@ -119,7 +119,7 @@ Until the discrepancies are resolved (owner decision: leave as is for now):
 4. Decide, when convenient, how to resolve the discrepancies in 2.1, 2.2 and 2.8. Until then the publishing rules in section 3 apply.
 5. Open the three live demos and the IEEE page once and confirm they work (they could not be reached from the research environment).
 
-Closed on 2026-11-03: stack (Astro with React islands), fourth project (Calorie Tracker), design direction ("margin notes", the assistant decides the visual details).
+Closed on 2026-11-03: stack (Astro with React components), fourth project (Calorie Tracker), design direction ("margin notes", the assistant decides the visual details).
 
 ## 6. Next
 
