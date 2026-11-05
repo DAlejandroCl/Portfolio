@@ -12,6 +12,13 @@ export const profile = {
     email: 'mailto:alejandro1clavijo3@gmail.com',
     siteSource: 'https://github.com/DAlejandroCl/Portfolio',
   },
+  /** Where each engineering strength is shown, in the same order as the dictionary items. */
+  focusProof: [
+    { slug: 'cocktail-lab', section: 'architecture' },
+    { slug: 'cocktail-lab', section: 'testing' },
+    { slug: 'cocktail-lab', section: 'accessibility-performance' },
+    { slug: 'cocktail-lab', section: 'decisions' },
+  ],
   /** React and TypeScript lead; everything else is supporting. */
   primarySkills: ['React', 'TypeScript'],
   supportingSkills: {
