@@ -74,6 +74,28 @@
   color-scheme: dark;
 }
 
+/*
+ * The one moment of motion: on first load the width axis of the name eases
+ * from condensed to normal, once (DESIGN_SYSTEM.md, section 7).
+ * Guards: it never runs under reduced motion, and only from `sm` up, where
+ * both name lines always fit, so the number of lines (and the height of the
+ * block) cannot change while the glyphs widen. Nothing around it moves.
+ */
+@keyframes hero-width {
+  from {
+    font-stretch: 62%;
+  }
+  to {
+    font-stretch: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-width: 40rem) {
+  .hero-name {
+    animation: hero-width var(--duration-hero) var(--ease-out) both;
+  }
+}
+
 @layer base {
   html {
     background-color: var(--color-paper);
