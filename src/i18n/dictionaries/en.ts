@@ -130,17 +130,20 @@ export const en = {
     education: {
       degree: 'Systems and Computer Engineering',
       school: 'Universidad Católica de Colombia',
+      schoolLang: 'es',
       years: '2018–2024',
     },
     experienceTitle: 'Experience',
     experience: [
       {
         name: 'Independent software engineering projects',
+        nameLang: 'en',
         period: 'September 2022 – present',
         text: 'Designing, building and documenting the projects shown on this page.',
       },
       {
         name: 'Fundación de Levi',
+        nameLang: 'es',
         period: 'February – August 2022',
         text: 'Web developer in a team project: built the gallery section of the institutional website with HTML, CSS and JavaScript.',
       },
@@ -150,12 +153,25 @@ export const en = {
     certifications: [
       {
         name: 'React & Full-Stack Development (MERN/PERN)',
+        nameLang: 'en',
         issuer: 'Udemy',
         year: '2026',
         inProgress: true,
       },
-      { name: 'AI from 0 to Production', issuer: 'BIG School', year: '2026', inProgress: false },
-      { name: 'Advanced CSS and SASS', issuer: 'Udemy', year: '2025', inProgress: false },
+      {
+        name: 'AI from 0 to Production',
+        nameLang: 'en',
+        issuer: 'BIG School',
+        year: '2026',
+        inProgress: false,
+      },
+      {
+        name: 'Advanced CSS and SASS',
+        nameLang: 'en',
+        issuer: 'Udemy',
+        year: '2025',
+        inProgress: false,
+      },
     ],
     languagesTitle: 'Languages',
     languages: ['Spanish: native', 'English: B2'],
