@@ -67,7 +67,7 @@ Overview, stack, what it demonstrates, key decision, limitations (including "no 
 
 Astro Content Collections validated with Zod:
 
-- `projects`: `slug`, `lang`, `title`, `summary`, `status` (`production | in-progress`), `featured`, `order`, `stack[]`, `links { repo, demo? }`, `sections` (per page type), `evidence[]`.
+- `projects`: `slug`, `lang`, `title`, `summary`, `status` (`production | completed | in-progress`; `completed` is used where a live deployment has not been verified), `featured`, `order`, `stack[]`, `links { repo, demo? }`, `sections` (per page type), `evidence[]`.
 - `evidence[]` item: `claim`, `value`, `source` (URL or commit reference), `verifiedAt` (date), `status` (`verified | target | stated`).
 - `publications`: `title`, `venue`, `year`, `url`, `context`, `lang`.
 - Typed data modules for profile, skills and experience; dictionaries for interface strings.
@@ -129,3 +129,10 @@ Blog or articles, contact form, analytics, CMS, comments, animated backgrounds, 
 2. Whether the owner publishes the email address as a link.
 3. Screenshots: real captures of the four apps (light and dark where applicable) are needed; they can be taken from the live demos once reachable.
 4. Resolution of the CV discrepancies listed in `PROJECT_BRIEF.md` before any contradicted claim is published.
+
+## 12. Changes made during implementation
+
+- **Phase 4 (2026-11-05).** The project `status` gained `completed` (shown as "Completed") for Weather Finder and Calorie Tracker, whose live demos have not been opened and verified. `production` stays for Cocktail Lab, as stated in the CV.
+- The CV download (hero action, contact link, FR-03) is postponed until phone-free CV files are provided. Until then the hero has one action.
+- Project rows link to the repository until the case study pages exist (Phase 5). The "Engineering focus" items will link to their proof in the case studies at the same time.
+- Structured data (`Person`, `ScholarlyArticle`) is added in Phase 7, together with the Lighthouse pass.
