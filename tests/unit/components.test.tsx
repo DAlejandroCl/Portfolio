@@ -5,6 +5,10 @@ import { Hero } from '../../src/components/sections/Hero';
 import { MarginNote } from '../../src/components/shared/MarginNote';
 import { SiteHeader } from '../../src/components/navigation/SiteHeader';
 import { ThemeToggle } from '../../src/components/navigation/ThemeToggle';
+import { CaseStudySection } from '../../src/components/shared/CaseStudySection';
+import { FeatureList } from '../../src/components/shared/FeatureList';
+import { ProjectList } from '../../src/components/shared/ProjectList';
+import { CaseStudyHeader } from '../../src/components/sections/CaseStudyHeader';
 import { ProjectRow } from '../../src/components/shared/ProjectRow';
 import { StackList } from '../../src/components/shared/StackList';
 import { Button } from '../../src/components/ui/Button';
@@ -209,5 +213,144 @@ describe('SiteHeader', () => {
       '/es/#contact',
     ]);
     expect(screen.getByRole('navigation', { name: 'Principal' })).toBeInTheDocument();
+  });
+});
+
+describe('CaseStudySection', () => {
+  it('renders the prose under a labelled heading and puts the notes after it', () => {
+    const { container } = render(
+      <CaseStudySection
+        id="architecture"
+        title="Architecture"
+        html="<p>Layers.</p>"
+        notes={[evidence]}
+        locale="en"
+        labels={en.note}
+      />,
+    );
+    const section = screen.getByRole('region', { name: 'Architecture' });
+    expect(section).toHaveAttribute('id', 'architecture');
+    expect(container.querySelector('.case-prose')).toHaveTextContent('Layers.');
+    const html = section.innerHTML;
+    expect(html.indexOf('Layers.')).toBeLessThan(html.indexOf('Verified'));
+  });
+
+  it('has no notes column when there is no evidence', () => {
+    render(
+      <CaseStudySection
+        id="x"
+        title="X"
+        html="<p>Text.</p>"
+        notes={[]}
+        locale="en"
+        labels={en.note}
+      />,
+    );
+    expect(screen.queryByText('Verified')).not.toBeInTheDocument();
+  });
+});
+
+describe('FeatureList', () => {
+  it('writes the status of every feature in words', () => {
+    render(
+      <FeatureList
+        labels={en.caseStudy.featureStatus}
+        features={[
+          { name: 'Login', description: 'Sign in.', status: 'implemented' },
+          { name: 'CI', description: 'Pipelines.', status: 'in-progress' },
+          { name: 'Export', description: 'CSV.', status: 'planned' },
+        ]}
+      />,
+    );
+    expect(screen.getAllByRole('listitem')).toHaveLength(3);
+    expect(screen.getByText('Implemented')).toBeInTheDocument();
+    expect(screen.getByText('In progress')).toBeInTheDocument();
+    expect(screen.getByText('Planned')).toBeInTheDocument();
+  });
+});
+
+describe('ProjectList', () => {
+  const projects = [
+    {
+      slug: 'one',
+      title: 'One',
+      summary: 'First.',
+      status: 'production',
+      stack: ['React'],
+      repo: 'https://github.com/x/one',
+      demo: 'https://one.dev/',
+    },
+    {
+      slug: 'two',
+      title: 'Two',
+      summary: 'Second.',
+      status: 'in-progress',
+      stack: ['TypeScript'],
+      repo: 'https://github.com/x/two',
+    },
+  ] as const;
+
+  it('links each title to its case study in the current language', () => {
+    render(
+      <ProjectList
+        projects={projects}
+        locale="es"
+        labels={{ caseStudy: es.caseStudy, status: es.status }}
+      />,
+    );
+    expect(screen.getByRole('link', { name: 'One' })).toHaveAttribute('href', '/es/projects/one/');
+    expect(screen.getByRole('link', { name: 'Two' })).toHaveAttribute('href', '/es/projects/two/');
+  });
+
+  it('offers the repository for each project and the demo only when there is one', () => {
+    render(
+      <ProjectList
+        projects={projects}
+        locale="en"
+        labels={{ caseStudy: en.caseStudy, status: en.status }}
+      />,
+    );
+    expect(screen.getAllByRole('link', { name: /^Repository/ })).toHaveLength(2);
+    expect(screen.getAllByRole('link', { name: /^Live demo/ })).toHaveLength(1);
+  });
+});
+
+describe('CaseStudyHeader', () => {
+  const props = {
+    title: 'Cocktail Lab',
+    summary: 'A cocktail app.',
+    status: 'production',
+    stack: ['React', 'TypeScript'],
+    repo: 'https://github.com/x/y',
+    sections: [{ id: 'overview', title: 'Overview' }],
+    locale: 'en',
+    labels: { caseStudy: en.caseStudy, status: en.status, note: en.note },
+  } as const;
+
+  it('shows each metric next to the evidence behind it', () => {
+    render(
+      <CaseStudyHeader
+        {...props}
+        metrics={[{ label: 'Line coverage', value: '89.42%', evidence }]}
+      />,
+    );
+    expect(screen.getByText('Line coverage: 89.42%')).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'Cocktail Lab at commit 5296d93' }),
+    ).toBeInTheDocument();
+  });
+
+  it('offers a breadcrumb that marks the current page and an in-page table of contents', () => {
+    render(<CaseStudyHeader {...props} />);
+    expect(screen.getByRole('link', { name: 'Projects' })).toHaveAttribute('href', '/projects/');
+    expect(
+      screen.getByText('Cocktail Lab', { selector: '[aria-current="page"]' }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Overview' })).toHaveAttribute('href', '#overview');
+  });
+
+  it('does not show a demo link when there is none', () => {
+    render(<CaseStudyHeader {...props} />);
+    expect(screen.queryByRole('link', { name: 'Live demo' })).not.toBeInTheDocument();
   });
 });
