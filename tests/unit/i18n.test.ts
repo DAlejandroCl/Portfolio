@@ -105,10 +105,21 @@ describe('dictionaries', () => {
   });
 
   it('does not leave English text in the Spanish dictionary', () => {
-    const sameInBoth = new Set(['site.firstNames', 'site.lastNames']);
+    // Names, brands and years are the same in both languages on purpose.
+    const sameInBoth = [
+      /^site\.(firstNames|lastNames|shortName)$/,
+      /^contact\.(linkedin|github)$/,
+      /^about\.education\.(years|school)$/,
+      /^about\.experience\.1\.name$/,
+      /^about\.certifications\.\d+\.(name|issuer|year)$/,
+      /^expertise\.primary\.\d+\.name$/,
+    ];
     const spanish = new Map(leaves(es));
     const untranslated = leaves(en)
-      .filter(([key, value]) => !sameInBoth.has(key) && spanish.get(key) === value)
+      .filter(
+        ([key, value]) =>
+          !sameInBoth.some((pattern) => pattern.test(key)) && spanish.get(key) === value,
+      )
       .map(([key]) => key);
     expect(untranslated).toEqual([]);
   });
