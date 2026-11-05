@@ -23,6 +23,11 @@ function frontmatter(file: string): unknown {
   return parse(match[1]);
 }
 
+/** "89.42%" and "89,42 %" are the same number written for two languages. */
+export function normalizeNumber(value: string): string {
+  return value.replace(/[\s\u00a0]/g, '').replace(',', '.');
+}
+
 function slugsFor(locale: string): string[] {
   return readdirSync(join(PROJECTS_DIR, locale))
     .filter((name) => name.endsWith('.md'))
@@ -37,6 +42,16 @@ const files = locales.flatMap((locale) =>
     path: join(PROJECTS_DIR, locale, `${slug}.md`),
   })),
 );
+
+describe('normalizeNumber', () => {
+  it('treats the decimal comma and the spaced percent sign as the same number', () => {
+    expect(normalizeNumber('89,42\u00a0%')).toBe(normalizeNumber('89.42%'));
+  });
+
+  it('still tells different numbers apart', () => {
+    expect(normalizeNumber('89,42\u00a0%')).not.toBe(normalizeNumber('89.43%'));
+  });
+});
 
 describe('project content', () => {
   it('has at least one project per language', () => {
@@ -77,7 +92,10 @@ describe('project content', () => {
           kind: data.kind,
           stack: data.stack,
           links: data.links,
-          metrics: data.metrics.map(({ value, evidenceId }) => ({ value, evidenceId })),
+          metrics: data.metrics.map(({ value, evidenceId }) => ({
+            value: normalizeNumber(value),
+            evidenceId,
+          })),
           evidence: data.evidence.map(({ id, source, verifiedOn, status }) => ({
             id,
             url: source.url,
