@@ -27,7 +27,7 @@ export function MarginNote({ evidence, locale, labels }: MarginNoteProps) {
         </a>
       </p>
       <p>
-        {labels.checkedOn}{' '}
+        {evidence.status === 'stated' ? labels.statedOn : labels.checkedOn}{' '}
         <time dateTime={evidence.verifiedOn}>{formatDate(evidence.verifiedOn, locale)}</time>
       </p>
     </div>
