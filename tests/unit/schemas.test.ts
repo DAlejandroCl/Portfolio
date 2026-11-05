@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { evidenceSchema, projectSchema } from '../../src/content/schemas';
+import { evidenceSchema, projectSchema, publicationSchema } from '../../src/content/schemas';
 
 function validEvidence() {
   return {
@@ -132,5 +132,32 @@ describe('evidenceSchema', () => {
     expect(evidenceSchema.safeParse({ ...validEvidence(), id: 'Line Coverage' }).success).toBe(
       false,
     );
+  });
+});
+
+describe('project status', () => {
+  it.each(['production', 'completed', 'in-progress'])('accepts %s', (status) => {
+    expect(projectSchema.safeParse({ ...validProject(), status }).success).toBe(true);
+  });
+});
+
+describe('publicationSchema', () => {
+  const publication = {
+    lang: 'en',
+    title: 'A paper',
+    venue: 'IEEE',
+    year: 2025,
+    context: 'What it is about.',
+    evidence: { ...validEvidence(), status: 'stated' },
+  };
+
+  it('accepts a publication whose source is an https page', () => {
+    expect(publicationSchema.safeParse(publication).success).toBe(true);
+  });
+
+  it('requires evidence, so a paper cannot be listed without its source', () => {
+    const withoutEvidence: Record<string, unknown> = { ...publication };
+    delete withoutEvidence['evidence'];
+    expect(publicationSchema.safeParse(withoutEvidence).success).toBe(false);
   });
 });
