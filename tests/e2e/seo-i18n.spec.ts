@@ -74,3 +74,29 @@ test('the two languages have different titles and descriptions', async ({ page }
   expect(spanish.title).not.toBe(english.title);
   expect(spanish.description).not.toBe(english.description);
 });
+
+test.describe('sitemap', () => {
+  test('lists every page in both languages with reciprocal alternates and leaves out the 404', async ({
+    request,
+  }) => {
+    const index = await (await request.get('/sitemap-index.xml')).text();
+    const sitemapUrl = /<loc>([^<]+)<\/loc>/.exec(index)?.[1] ?? '';
+    const xml = await (await request.get(new URL(sitemapUrl).pathname)).text();
+    const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(
+      (match) => new URL(match[1] ?? '').pathname,
+    );
+    for (const slug of [
+      'cocktail-lab',
+      'streamline-inventory',
+      'weather-finder',
+      'calorie-tracker',
+    ]) {
+      expect(locs).toContain(`/projects/${slug}/`);
+      expect(locs).toContain(`/es/projects/${slug}/`);
+    }
+    expect(locs).toContain('/projects/');
+    expect(locs).toContain('/es/projects/');
+    expect(locs.some((loc) => loc.includes('404'))).toBe(false);
+    expect(xml).toContain('hreflang="es"');
+  });
+});
