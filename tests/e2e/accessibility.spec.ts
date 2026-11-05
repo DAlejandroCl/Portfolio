@@ -1,7 +1,19 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
-const routes = ['/', '/es/'];
+const routes = [
+  '/',
+  '/es/',
+  '/projects/',
+  '/es/projects/',
+  '/projects/cocktail-lab/',
+  '/es/projects/cocktail-lab/',
+  '/projects/streamline-inventory/',
+  '/es/projects/streamline-inventory/',
+  '/projects/weather-finder/',
+  '/es/projects/calorie-tracker/',
+  '/404.html',
+];
 const schemes = ['light', 'dark'] as const;
 const tags = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
 
