@@ -54,8 +54,36 @@ export const en = {
     repository: 'Repository',
     liveDemo: 'Live demo',
   },
+  caseStudy: {
+    breadcrumb: 'Breadcrumb',
+    allProjects: 'Projects',
+    onThisPage: 'On this page',
+    repository: 'Repository',
+    liveDemo: 'Live demo',
+    stack: 'Stack',
+    featureStatus: {
+      implemented: 'Implemented',
+      'in-progress': 'In progress',
+      planned: 'Planned',
+    },
+    readCaseStudy: 'Read the case study',
+    metaTitleSuffix: 'Case study',
+  },
+  projectsPage: {
+    title: 'Projects',
+    description:
+      'Four frontend projects built with React and TypeScript, each with its stack, status and the source behind its claims.',
+    intro: 'Each project has a case study with the decisions behind it.',
+  },
+  notFound: {
+    title: 'This page does not exist.',
+    text: 'The address may be wrong, or the page may have moved.',
+    home: 'Go to the home page',
+    metaTitle: 'Page not found',
+  },
   focus: {
     title: 'Engineering focus',
+    proofLink: 'See it in Cocktail Lab',
     items: [
       {
         title: 'Frontend engineering',
