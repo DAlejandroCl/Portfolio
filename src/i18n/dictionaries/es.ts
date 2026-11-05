@@ -50,8 +50,36 @@ export const es: Dictionary = {
     repository: 'Repositorio',
     liveDemo: 'Demo en vivo',
   },
+  caseStudy: {
+    breadcrumb: 'Ruta de navegación',
+    allProjects: 'Proyectos',
+    onThisPage: 'En esta página',
+    repository: 'Repositorio',
+    liveDemo: 'Demo en vivo',
+    stack: 'Tecnologías',
+    featureStatus: {
+      implemented: 'Implementado',
+      'in-progress': 'En curso',
+      planned: 'Planeado',
+    },
+    readCaseStudy: 'Leer el caso de estudio',
+    metaTitleSuffix: 'Caso de estudio',
+  },
+  projectsPage: {
+    title: 'Proyectos',
+    description:
+      'Cuatro proyectos frontend hechos con React y TypeScript, cada uno con sus tecnologías, su estado y la fuente de lo que afirma.',
+    intro: 'Cada proyecto tiene un caso de estudio con las decisiones detrás.',
+  },
+  notFound: {
+    title: 'Esta página no existe.',
+    text: 'Puede que la dirección esté mal escrita o que la página se haya movido.',
+    home: 'Ir a la página de inicio',
+    metaTitle: 'Página no encontrada',
+  },
   focus: {
     title: 'Enfoque de ingeniería',
+    proofLink: 'Verlo en Cocktail Lab',
     items: [
       {
         title: 'Ingeniería frontend',
