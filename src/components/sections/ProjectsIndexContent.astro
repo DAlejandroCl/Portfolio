@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import type { Locale } from '../../i18n/config';
+import { getDictionary } from '../../i18n/utils';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { ProjectList, type ProjectItem } from '../shared/ProjectList';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getDictionary(locale);
+
+const entries = (await getCollection('projects', ({ data }) => data.lang === locale)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const projects: ProjectItem[] = entries.map((entry) => ({
+  slug: entry.id.split('/')[1] ?? entry.id,
+  title: entry.data.title,
+  summary: entry.data.summary,
+  status: entry.data.status,
+  stack: entry.data.stack,
+  repo: entry.data.links.repo,
+  demo: entry.data.links.demo,
+}));
+---
+
+<BaseLayout
+  title={`${t.projectsPage.title} | ${t.site.firstNames} ${t.site.lastNames}`}
+  description={t.projectsPage.description}
+>
+  <section class="pt-8 pb-[var(--space-section)] md:pt-14">
+    <h1 class="text-h1">{t.projectsPage.title}</h1>
+    <p class="mt-6 max-w-[60ch] text-lede">{t.projectsPage.intro}</p>
+    <div class="mt-12">
+      <ProjectList
+        projects={projects}
+        locale={locale}
+        labels={{ caseStudy: t.caseStudy, status: t.status }}
+      />
+    </div>
+  </section>
+</BaseLayout>
