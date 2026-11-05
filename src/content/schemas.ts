@@ -106,6 +106,8 @@ export const projectSchema = projectBaseSchema.superRefine(checkEvidenceReferenc
 export const publicationSchema = z.object({
   lang: z.enum(locales),
   title: z.string().min(1),
+  /** The language the title is written in; may differ from the page language. */
+  titleLang: z.enum(locales),
   venue: z.string().min(1),
   year: z.number().int().min(2000),
   context: z.string().min(1),
