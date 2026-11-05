@@ -1,12 +1,19 @@
 ---
 import { Image } from 'astro:assets';
-import { getEntry } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import { resolveMetrics } from '../../content/evidence';
 import type { Locale } from '../../i18n/config';
-import { getDictionary } from '../../i18n/utils';
+import { getDictionary, localizedPath } from '../../i18n/utils';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { MarginNote } from '../shared/MarginNote';
+import { Button } from '../ui/Button';
+import { AboutSection } from './AboutSection';
+import { ContactSection } from './ContactSection';
+import { ExpertiseSection } from './ExpertiseSection';
+import { FocusSection } from './FocusSection';
 import { Hero } from './Hero';
+import { ProjectsSection, type ProjectItem } from './ProjectsSection';
+import { PublicationSection } from './PublicationSection';
 
 interface Props {
   locale: Locale;
@@ -15,14 +22,31 @@ interface Props {
 const { locale } = Astro.props;
 const t = getDictionary(locale);
 
-const project = await getEntry('projects', `${locale}/cocktail-lab`);
-if (!project) {
-  throw new Error(`Missing project content for locale "${locale}".`);
+const entries = (await getCollection('projects', ({ data }) => data.lang === locale)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const hero = entries.find((entry) => entry.id === `${locale}/cocktail-lab`);
+if (!hero) {
+  throw new Error(`Missing Cocktail Lab content for locale "${locale}".`);
 }
-
-const coverage = resolveMetrics(project.data)[0];
+const coverage = resolveMetrics(hero.data)[0];
 if (!coverage) {
   throw new Error('The hero expects the Cocktail Lab coverage metric.');
+}
+
+const projects: ProjectItem[] = entries.map((entry) => ({
+  slug: entry.id,
+  title: entry.data.title,
+  summary: entry.data.summary,
+  status: entry.data.status,
+  stack: entry.data.stack,
+  repo: entry.data.links.repo,
+  demo: entry.data.links.demo,
+}));
+
+const publication = await getEntry('publications', `${locale}/ieee-2025`);
+if (!publication) {
+  throw new Error(`Missing publication content for locale "${locale}".`);
 }
 ---
 
@@ -33,11 +57,14 @@ if (!coverage) {
     jobTitle={t.site.role}
     statement={t.hero.statement}
   >
+    <Fragment slot="actions">
+      <Button href={`${localizedPath(locale, '/')}#projects`}>{t.hero.viewProjects}</Button>
+    </Fragment>
     <figure class="mt-12 grid gap-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,4fr)] lg:items-end">
       <div class="overflow-hidden rounded-media bg-surface">
         <Image
-          src={project.data.screenshot}
-          alt={project.data.screenshotAlt}
+          src={hero.data.screenshot}
+          alt={hero.data.screenshotAlt}
           widths={[640, 960, 1280, 1600]}
           sizes="(min-width: 64rem) 56rem, 100vw"
           loading="eager"
@@ -52,4 +79,14 @@ if (!coverage) {
       </figcaption>
     </figure>
   </Hero>
+  <ProjectsSection projects={projects} labels={{ projects: t.projects, status: t.status }} />
+  <FocusSection labels={t.focus} />
+  <ExpertiseSection labels={t.expertise} />
+  <AboutSection labels={t.about} />
+  <PublicationSection
+    publication={publication.data}
+    locale={locale}
+    labels={{ publication: t.publication, note: t.note }}
+  />
+  <ContactSection labels={t.contact} />
 </BaseLayout>
