@@ -113,6 +113,8 @@ describe('dictionaries', () => {
       /^about\.experience\.1\.name$/,
       /^about\.certifications\.\d+\.(name|issuer|year)$/,
       /^expertise\.primary\.\d+\.name$/,
+      // The language a phrase is written in is a fact about the phrase, not copy to translate.
+      /Lang$/,
     ];
     const spanish = new Map(leaves(es));
     const untranslated = leaves(en)
