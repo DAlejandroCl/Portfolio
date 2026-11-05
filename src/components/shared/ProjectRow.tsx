@@ -18,8 +18,8 @@ interface ProjectRowProps {
   emphasizedStack: readonly string[];
   /** Where the title goes. The whole row is clickable through this link. */
   href: string;
-  /** Spoken after the title so the destination is clear, e.g. "Repository". */
-  destinationLabel: string;
+  /** Spoken after the title when it leaves the site, e.g. "Repository". */
+  destinationLabel?: string;
   extraLinks?: readonly ExtraLink[];
   size: ProjectRowSize;
   children?: ReactNode;
@@ -55,17 +55,18 @@ export function ProjectRow({
   size,
   children,
 }: ProjectRowProps) {
+  const isExternal = /^https?:\/\//.test(href);
   return (
     <article className={`group relative border-t border-line ${rowPadding[size]}`}>
       <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
         <h3 className={`${titleSize[size]} text-ink`}>
           <a
             href={href}
-            rel="noopener noreferrer"
+            {...(isExternal ? { rel: 'noopener noreferrer' } : {})}
             className="inline-block text-ink no-underline transition-transform duration-[var(--duration-base)] ease-[var(--ease-out)] group-hover:translate-x-1 group-hover:underline after:absolute after:inset-0 after:content-['']"
           >
             {title}
-            <span className="sr-only"> — {destinationLabel}</span>
+            {destinationLabel && <span className="sr-only"> — {destinationLabel}</span>}
           </a>
         </h3>
         <StatusMarker status={status} label={statusLabel} />
