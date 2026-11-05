@@ -1,0 +1,65 @@
+---
+import '../styles/global.css';
+import { LanguageSwitch } from '../components/navigation/LanguageSwitch';
+import { SkipLink } from '../components/ui/SkipLink';
+import { defaultLocale, locales, ogLocales } from '../i18n/config';
+import {
+  alternateLinks,
+  canonicalUrl,
+  getDictionary,
+  getLocaleFromPath,
+  localizedPath,
+} from '../i18n/utils';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+
+const pathname = Astro.url.pathname;
+const locale = getLocaleFromPath(pathname);
+const t = getDictionary(locale);
+const site = Astro.site ?? new URL(Astro.url.origin);
+
+const canonical = canonicalUrl(pathname, site);
+const alternates = alternateLinks(pathname, site);
+const otherLocale = locales.find((candidate) => candidate !== locale) ?? defaultLocale;
+const otherLocaleHref = localizedPath(otherLocale, pathname);
+const alternateOgLocale = ogLocales[otherLocale];
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {alternates.map((link) => (
+      <link rel="alternate" hreflang={link.hreflang} href={link.href} />
+    ))}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={`${t.site.firstNames} ${t.site.lastNames}`} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={ogLocales[locale]} />
+    <meta property="og:locale:alternate" content={alternateOgLocale} />
+    <meta name="twitter:card" content="summary" />
+  </head>
+  <body>
+    <SkipLink label={t.a11y.skipLink} />
+    <div class="mx-auto w-full max-w-7xl px-4 md:px-8">
+      <header class="flex justify-end pt-4">
+        <LanguageSwitch href={otherLocaleHref} label={t.nav.otherLanguage} lang={otherLocale} />
+      </header>
+      <main id="main" tabindex="-1">
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>
