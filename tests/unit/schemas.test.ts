@@ -146,6 +146,7 @@ describe('publicationSchema', () => {
   const publication = {
     lang: 'en',
     title: 'A paper',
+    titleLang: 'en',
     venue: 'IEEE',
     year: 2025,
     context: 'What it is about.',
@@ -154,6 +155,10 @@ describe('publicationSchema', () => {
 
   it('accepts a publication whose source is an https page', () => {
     expect(publicationSchema.safeParse(publication).success).toBe(true);
+  });
+
+  it('requires to know the language of the title', () => {
+    expect(publicationSchema.safeParse({ ...publication, titleLang: 'fr' }).success).toBe(false);
   });
 
   it('requires evidence, so a paper cannot be listed without its source', () => {
