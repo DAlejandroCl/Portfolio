@@ -1,53 +1,20 @@
-import { profile } from '../../data/profile';
+import type { Locale } from '../../i18n/config';
 import type { Dictionary } from '../../i18n/dictionaries/en';
-import type { ProjectStatus } from '../ui/StatusMarker';
-import { ProjectRow, type ProjectRowSize } from '../shared/ProjectRow';
+import { ProjectList, type ProjectItem } from '../shared/ProjectList';
 import { Section } from '../shared/Section';
 
-export interface ProjectItem {
-  slug: string;
-  title: string;
-  summary: string;
-  status: ProjectStatus;
-  stack: readonly string[];
-  repo: string;
-  demo?: string | undefined;
-}
+export type { ProjectItem };
 
 interface ProjectsSectionProps {
   projects: readonly ProjectItem[];
-  labels: Pick<Dictionary, 'projects' | 'status'>;
+  locale: Locale;
+  labels: Pick<Dictionary, 'projects' | 'caseStudy' | 'status'>;
 }
 
-/** The first project leads, the second is standard, the rest are compact. */
-function sizeFor(index: number): ProjectRowSize {
-  if (index === 0) return 'featured';
-  if (index === 1) return 'standard';
-  return 'compact';
-}
-
-export function ProjectsSection({ projects, labels }: ProjectsSectionProps) {
+export function ProjectsSection({ projects, locale, labels }: ProjectsSectionProps) {
   return (
     <Section id="projects" title={labels.projects.title}>
-      <div className="border-b border-line">
-        {projects.map((project, index) => (
-          <ProjectRow
-            key={project.slug}
-            title={project.title}
-            summary={project.summary}
-            status={project.status}
-            statusLabel={labels.status[project.status]}
-            stack={project.stack}
-            emphasizedStack={profile.primarySkills}
-            href={project.repo}
-            destinationLabel={labels.projects.repository}
-            extraLinks={
-              project.demo ? [{ label: labels.projects.liveDemo, href: project.demo }] : []
-            }
-            size={sizeFor(index)}
-          />
-        ))}
-      </div>
+      <ProjectList projects={projects} locale={locale} labels={labels} />
     </Section>
   );
 }
