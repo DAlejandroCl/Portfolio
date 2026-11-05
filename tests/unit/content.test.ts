@@ -4,9 +4,15 @@ import { parse } from 'yaml';
 import { describe, expect, it } from 'vitest';
 import { locales } from '../../src/i18n/config';
 import { projectSchema, publicationSchema } from '../../src/content/schemas';
+import { checkCaseStudy, parseSections } from '../../src/content/sections';
 
 // Vitest runs from the project root; import.meta.url is not a file URL under happy-dom.
 const PROJECTS_DIR = join(process.cwd(), 'src/content/projects');
+
+function body(file: string): string {
+  const source = readFileSync(file, 'utf8');
+  return source.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, '');
+}
 
 function frontmatter(file: string): unknown {
   const source = readFileSync(file, 'utf8');
@@ -68,6 +74,7 @@ describe('project content', () => {
           status: data.status,
           order: data.order,
           featured: data.featured,
+          kind: data.kind,
           stack: data.stack,
           links: data.links,
           metrics: data.metrics.map(({ value, evidenceId }) => ({ value, evidenceId })),
@@ -117,6 +124,55 @@ describe('publication content', () => {
         expect(item.data.evidence.source.url).toBe(base?.evidence.source.url);
         expect(item.data.evidence.status).toBe(base?.evidence.status);
       });
+    }
+  });
+});
+
+describe('case study bodies', () => {
+  it.each(files)(
+    '$locale/$slug has every required section and only cites known evidence',
+    ({ path }) => {
+      const data = projectSchema.parse(frontmatter(path));
+      expect(checkCaseStudy(data, parseSections(body(path)))).toEqual([]);
+    },
+  );
+
+  it('uses the same section ids in the same order in every language', () => {
+    const [first, ...others] = locales;
+    for (const slug of slugsFor(first)) {
+      const ids = (locale: string) =>
+        parseSections(body(join(PROJECTS_DIR, locale, `${slug}.md`))).map((section) => section.id);
+      for (const locale of others) {
+        expect(ids(locale), `${locale}/${slug} sections differ from ${first}`).toEqual(ids(first));
+      }
+    }
+  });
+
+  it('cites the same evidence in the same sections in every language', () => {
+    const [first, ...others] = locales;
+    for (const slug of slugsFor(first)) {
+      const cited = (locale: string) =>
+        parseSections(body(join(PROJECTS_DIR, locale, `${slug}.md`))).map(
+          (section) => section.evidenceIds,
+        );
+      for (const locale of others) {
+        expect(cited(locale), `${locale}/${slug} evidence differs from ${first}`).toEqual(
+          cited(first),
+        );
+      }
+    }
+  });
+
+  it('keeps the feature list identical in status across languages', () => {
+    const [first, ...others] = locales;
+    for (const slug of slugsFor(first)) {
+      const statuses = (locale: string) =>
+        projectSchema
+          .parse(frontmatter(join(PROJECTS_DIR, locale, `${slug}.md`)))
+          .features.map((f) => f.status);
+      for (const locale of others) {
+        expect(statuses(locale)).toEqual(statuses(first));
+      }
     }
   });
 });
