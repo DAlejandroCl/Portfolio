@@ -126,17 +126,20 @@ export const es: Dictionary = {
     education: {
       degree: 'Ingeniería de Sistemas y Computación',
       school: 'Universidad Católica de Colombia',
+      schoolLang: 'es',
       years: '2018–2024',
     },
     experienceTitle: 'Experiencia',
     experience: [
       {
         name: 'Proyectos independientes de ingeniería de software',
+        nameLang: 'es',
         period: 'Septiembre de 2022 – actualidad',
         text: 'Diseño, construcción y documentación de los proyectos que se muestran en esta página.',
       },
       {
         name: 'Fundación de Levi',
+        nameLang: 'es',
         period: 'Febrero – agosto de 2022',
         text: 'Desarrollador web en un proyecto en equipo: construí la sección de galería del sitio web institucional con HTML, CSS y JavaScript.',
       },
@@ -146,12 +149,25 @@ export const es: Dictionary = {
     certifications: [
       {
         name: 'React & Full-Stack Development (MERN/PERN)',
+        nameLang: 'en',
         issuer: 'Udemy',
         year: '2026',
         inProgress: true,
       },
-      { name: 'AI from 0 to Production', issuer: 'BIG School', year: '2026', inProgress: false },
-      { name: 'Advanced CSS and SASS', issuer: 'Udemy', year: '2025', inProgress: false },
+      {
+        name: 'AI from 0 to Production',
+        nameLang: 'en',
+        issuer: 'BIG School',
+        year: '2026',
+        inProgress: false,
+      },
+      {
+        name: 'Advanced CSS and SASS',
+        nameLang: 'en',
+        issuer: 'Udemy',
+        year: '2025',
+        inProgress: false,
+      },
     ],
     languagesTitle: 'Idiomas',
     languages: ['Español: nativo', 'Inglés: B2'],
