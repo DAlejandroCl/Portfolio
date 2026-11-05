@@ -2,7 +2,7 @@
 
 Bilingual (EN default, ES under `/es/`) portfolio of a frontend software engineer. Static site built with Astro, React components and Tailwind CSS 4.
 
-**Status:** Phase 3 (infrastructure) complete. The home page is a placeholder that proves the toolchain; real sections arrive in Phase 4.
+**Status:** Phase 4 (home page) complete. Case study pages, the CV download and the final copy review come next (see the phases in PRODUCT_REQUIREMENTS.md).
 
 ## Principles
 
@@ -37,7 +37,8 @@ Set `SITE_URL` to the production origin before building for deployment; canonica
 ```
 src/
   components/   React components rendered to static HTML
-  content/      Markdown project entries (en/, es/) and schemas
+  data/         Links and technology names shared by both languages
+  content/      Projects and publications (en/, es/) and schemas
   i18n/         Locales, dictionaries, path helpers
   layouts/      Base layout (SEO, hreflang, skip link)
   pages/        Routes (/ and /es/)
