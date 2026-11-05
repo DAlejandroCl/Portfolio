@@ -31,22 +31,36 @@ export const metricSchema = z.object({
   evidenceId: z.string().min(1),
 });
 
+export const featureStatuses = ['implemented', 'in-progress', 'planned'] as const;
+
+/** A capability of a project, labeled by how far it has actually got. */
+export const featureSchema = z.object({
+  name: z.string().min(1),
+  description: z.string().min(1),
+  status: z.enum(featureStatuses),
+});
+
 export const projectBaseSchema = z.object({
   lang: z.enum(locales),
   title: z.string().min(1),
+  /** Short or full case study; decides which sections the page must have. */
+  kind: z.enum(['full', 'short']).default('short'),
   summary: z.string().min(1).max(280),
+  metaDescription: z.string().min(50).max(160),
   status: z.enum(['production', 'completed', 'in-progress']),
   featured: z.boolean().default(false),
   order: z.number().int().nonnegative(),
   stack: z.array(z.string().min(1)).min(1),
   links: z.object({ repo: httpsUrl, demo: httpsUrl.optional() }),
   screenshotAlt: z.string().min(1),
+  features: z.array(featureSchema).default([]),
   evidence: z.array(evidenceSchema).default([]),
   metrics: z.array(metricSchema).default([]),
 });
 
 export type Evidence = z.infer<typeof evidenceSchema>;
 export type Metric = z.infer<typeof metricSchema>;
+export type Feature = z.infer<typeof featureSchema>;
 
 interface WithEvidence {
   metrics: Metric[];
