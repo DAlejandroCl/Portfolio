@@ -1,0 +1,16 @@
+---
+import { getCollection } from 'astro:content';
+import CaseStudyContent from '../../components/sections/CaseStudyContent.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('projects', ({ data }) => data.lang === 'en');
+  return entries.map((entry) => ({ params: { slug: entry.id.split('/')[1] ?? entry.id } }));
+}
+
+const { slug } = Astro.params;
+if (slug === undefined) {
+  throw new Error('Missing project slug.');
+}
+---
+
+<CaseStudyContent locale="en" slug={slug} />
