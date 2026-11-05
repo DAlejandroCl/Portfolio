@@ -1,12 +1,15 @@
 import { expect, test } from '@playwright/test';
 
-const paths = ['/', '/es/'];
-const switchLabels: Record<string, string> = { '/': 'Español', '/es/': 'English' };
+const pages = [
+  { path: '/', switchLabel: 'Español' },
+  { path: '/es/', switchLabel: 'English' },
+] as const;
+const paths = pages.map((page) => page.path);
 
 test.describe('with JavaScript disabled', () => {
   test.use({ javaScriptEnabled: false });
 
-  for (const path of paths) {
+  for (const { path, switchLabel } of pages) {
     test(`${path} shows its content and the hero image`, async ({ page }) => {
       await page.goto(path);
       await expect(
@@ -22,7 +25,7 @@ test.describe('with JavaScript disabled', () => {
 
     test(`${path} keeps the language switch working`, async ({ page }) => {
       await page.goto(path);
-      await page.locator('header').getByRole('link', { name: switchLabels[path] }).click();
+      await page.locator('header').getByRole('link', { name: switchLabel }).click();
       await expect(page).toHaveURL(path === '/' ? '/es/' : '/');
     });
   }
