@@ -1,7 +1,8 @@
 export type ProjectStatus = 'production' | 'completed' | 'in-progress';
+export type FeatureStatus = 'implemented' | 'in-progress' | 'planned';
 
 interface StatusMarkerProps {
-  status: ProjectStatus;
+  status: ProjectStatus | FeatureStatus;
   label: string;
 }
 
@@ -18,7 +19,7 @@ export function StatusMarker({ status, label }: StatusMarkerProps) {
           y="1"
           width="10"
           height="10"
-          fill={status === 'in-progress' ? 'none' : 'currentColor'}
+          fill={status === 'in-progress' || status === 'planned' ? 'none' : 'currentColor'}
           stroke="currentColor"
           strokeWidth="1.5"
         />
