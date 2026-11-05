@@ -52,3 +52,29 @@ test.describe('theme override', () => {
     await expect(page.locator('html')).toHaveCSS('background-color', paper.light);
   });
 });
+
+test.describe('interactive states', () => {
+  for (const route of routes) {
+    test(`${route} has no violations after switching to the dark theme with the toggle`, async ({
+      page,
+    }) => {
+      await page.emulateMedia({ colorScheme: 'light' });
+      await page.goto(route);
+      await page.locator('[data-theme-toggle]').click();
+      await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+      const results = await new AxeBuilder({ page }).withTags(tags).analyze();
+      expect(results.violations.map((violation) => violation.id)).toEqual([]);
+    });
+
+    test(`${route} has no violations with the small-screen menu open`, async ({
+      page,
+      isMobile,
+    }) => {
+      test.skip(!isMobile, 'The disclosure only exists on narrow screens.');
+      await page.goto(route);
+      await page.locator('details[data-menu] summary').click();
+      const results = await new AxeBuilder({ page }).withTags(tags).analyze();
+      expect(results.violations.map((violation) => violation.id)).toEqual([]);
+    });
+  }
+});
