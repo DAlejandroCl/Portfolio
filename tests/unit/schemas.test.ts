@@ -19,6 +19,7 @@ function validProject() {
     lang: 'en',
     title: 'Cocktail Lab',
     summary: 'A cocktail recipe app.',
+    metaDescription: 'Case study of a cocktail recipe app built with React and TypeScript.',
     status: 'production',
     order: 1,
     stack: ['React', 'TypeScript'],
