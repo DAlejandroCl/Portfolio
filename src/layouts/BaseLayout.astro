@@ -17,9 +17,11 @@ import {
 interface Props {
   title: string;
   description: string;
+  /** Pages that should not be indexed or listed in other languages (the 404). */
+  noindex?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, noindex = false } = Astro.props;
 
 const pathname = Astro.url.pathname;
 const locale = getLocaleFromPath(pathname);
@@ -29,7 +31,7 @@ const site = Astro.site ?? new URL(Astro.url.origin);
 const canonical = canonicalUrl(pathname, site);
 const alternates = alternateLinks(pathname, site);
 const otherLocale = locales.find((candidate) => candidate !== locale) ?? defaultLocale;
-const otherLocaleHref = localizedPath(otherLocale, pathname);
+const otherLocaleHref = localizedPath(otherLocale, noindex ? '/' : pathname);
 const alternateOgLocale = ogLocales[otherLocale];
 ---
 
@@ -43,15 +45,15 @@ const alternateOgLocale = ogLocales[otherLocale];
     <link rel="preload" href={serifLatin} as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
-    {alternates.map((link) => (
-      <link rel="alternate" hreflang={link.hreflang} href={link.href} />
-    ))}
+    {noindex && <meta name="robots" content="noindex" />}
+    {!noindex && <link rel="canonical" href={canonical} />}
+    {!noindex &&
+      alternates.map((link) => <link rel="alternate" hreflang={link.hreflang} href={link.href} />)}
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={`${t.site.firstNames} ${t.site.lastNames}`} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    {!noindex && <meta property="og:url" content={canonical} />}
     <meta property="og:locale" content={ogLocales[locale]} />
     <meta property="og:locale:alternate" content={alternateOgLocale} />
     <meta name="twitter:card" content="summary" />
