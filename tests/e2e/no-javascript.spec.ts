@@ -4,7 +4,13 @@ const pages = [
   { path: '/', switchLabel: 'Español' },
   { path: '/es/', switchLabel: 'English' },
 ] as const;
-const paths = pages.map((page) => page.path);
+const paths = [
+  ...pages.map((page) => page.path),
+  '/projects/',
+  '/projects/cocktail-lab/',
+  '/es/projects/streamline-inventory/',
+  '/404.html',
+];
 
 test.describe('with JavaScript disabled', () => {
   test.use({ javaScriptEnabled: false });
