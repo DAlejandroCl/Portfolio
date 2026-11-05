@@ -1,0 +1,76 @@
+---
+import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import { resolveMetrics } from '../../content/evidence';
+import { checkCaseStudy, parseSections } from '../../content/sections';
+import type { Locale } from '../../i18n/config';
+import { getDictionary } from '../../i18n/utils';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { CaseStudySection } from '../shared/CaseStudySection';
+import { FeatureList } from '../shared/FeatureList';
+import { CaseStudyHeader } from './CaseStudyHeader';
+
+interface Props {
+  locale: Locale;
+  slug: string;
+}
+
+const { locale, slug } = Astro.props;
+const t = getDictionary(locale);
+
+const entry = await getEntry('projects', `${locale}/${slug}`);
+if (!entry) {
+  throw new Error(`No project "${slug}" for locale "${locale}".`);
+}
+
+// The build fails if a section is missing or cites evidence that does not exist.
+const sections = parseSections(entry.body ?? '');
+const problems = checkCaseStudy(entry.data, sections);
+if (problems.length > 0) {
+  throw new Error(`Case study ${locale}/${slug} is not publishable:\n- ${problems.join('\n- ')}`);
+}
+
+const metrics = resolveMetrics(entry.data);
+const evidenceById = new Map(entry.data.evidence.map((item) => [item.id, item]));
+const title = `${entry.data.title} | ${t.caseStudy.metaTitleSuffix} | ${t.site.firstNames} ${t.site.lastNames}`;
+---
+
+<BaseLayout title={title} description={entry.data.metaDescription}>
+  <CaseStudyHeader
+    title={entry.data.title}
+    summary={entry.data.summary}
+    status={entry.data.status}
+    stack={entry.data.stack}
+    repo={entry.data.links.repo}
+    demo={entry.data.links.demo}
+    sections={sections.map(({ id, title }) => ({ id, title }))}
+    metrics={metrics}
+    locale={locale}
+    labels={{ caseStudy: t.caseStudy, status: t.status, note: t.note }}
+  >
+    <figure class="mt-10 overflow-hidden rounded-media bg-surface">
+      <Image
+        src={entry.data.screenshot}
+        alt={entry.data.screenshotAlt}
+        widths={[640, 960, 1280, 1600]}
+        sizes="(min-width: 80rem) 72rem, 100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </figure>
+  </CaseStudyHeader>
+  {sections.map((section) => (
+    <CaseStudySection
+      id={section.id}
+      title={section.title}
+      html={section.html}
+      notes={section.evidenceIds.flatMap((id) => evidenceById.get(id) ?? [])}
+      locale={locale}
+      labels={t.note}
+    >
+      {section.hasFeatures && (
+        <FeatureList features={entry.data.features} labels={t.caseStudy.featureStatus} />
+      )}
+    </CaseStudySection>
+  ))}
+</BaseLayout>
