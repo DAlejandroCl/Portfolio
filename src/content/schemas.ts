@@ -35,7 +35,7 @@ export const projectBaseSchema = z.object({
   lang: z.enum(locales),
   title: z.string().min(1),
   summary: z.string().min(1).max(280),
-  status: z.enum(['production', 'in-progress']),
+  status: z.enum(['production', 'completed', 'in-progress']),
   featured: z.boolean().default(false),
   order: z.number().int().nonnegative(),
   stack: z.array(z.string().min(1)).min(1),
@@ -87,3 +87,15 @@ export function checkEvidenceReferences(
 
 /** Schema without the image field, so it can be tested outside Astro. */
 export const projectSchema = projectBaseSchema.superRefine(checkEvidenceReferences);
+
+/** A published paper. The source is the publisher's page, carried as evidence. */
+export const publicationSchema = z.object({
+  lang: z.enum(locales),
+  title: z.string().min(1),
+  venue: z.string().min(1),
+  year: z.number().int().min(2000),
+  context: z.string().min(1),
+  evidence: evidenceSchema,
+});
+
+export type Publication = z.infer<typeof publicationSchema>;
