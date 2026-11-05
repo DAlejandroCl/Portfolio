@@ -5,7 +5,9 @@ import { MarginNote } from '../shared/MarginNote';
 import { Section } from '../shared/Section';
 
 interface PublicationSectionProps {
-  publication: Pick<Publication, 'title' | 'venue' | 'year' | 'context'> & { evidence: Evidence };
+  publication: Pick<Publication, 'title' | 'titleLang' | 'venue' | 'year' | 'context'> & {
+    evidence: Evidence;
+  };
   locale: Locale;
   labels: Pick<Dictionary, 'publication' | 'note'>;
 }
@@ -17,7 +19,11 @@ export function PublicationSection({ publication, locale, labels }: PublicationS
       <div className="grid gap-8 lg:grid-cols-12">
         <div className="lg:col-span-7">
           <h3 className="text-h3">
-            <a href={publication.evidence.source.url} rel="noopener noreferrer">
+            <a
+              href={publication.evidence.source.url}
+              rel="noopener noreferrer"
+              lang={publication.titleLang === locale ? undefined : publication.titleLang}
+            >
               {publication.title}
             </a>
           </h3>
