@@ -1,11 +1,11 @@
 import { expect, test } from '@playwright/test';
 
 const pages = [
-  { locale: 'en', path: '/', otherPath: '/es/', otherLocale: 'es' },
-  { locale: 'es', path: '/es/', otherPath: '/', otherLocale: 'en' },
+  { locale: 'en', path: '/', otherPath: '/es/', otherLocale: 'es', switchLabel: 'Español' },
+  { locale: 'es', path: '/es/', otherPath: '/', otherLocale: 'en', switchLabel: 'English' },
 ] as const;
 
-for (const { locale, path, otherPath, otherLocale } of pages) {
+for (const { locale, path, otherPath, otherLocale, switchLabel } of pages) {
   test.describe(`${locale} home`, () => {
     test('declares its language and has exactly one h1', async ({ page }) => {
       await page.goto(path);
@@ -54,7 +54,7 @@ for (const { locale, path, otherPath, otherLocale } of pages) {
 
     test('links to the same page in the other language', async ({ page }) => {
       await page.goto(path);
-      await page.locator('header').getByRole('link').click();
+      await page.locator('header').getByRole('link', { name: switchLabel }).click();
       await expect(page).toHaveURL(otherPath);
       await expect(page.locator('html')).toHaveAttribute('lang', otherLocale);
     });
