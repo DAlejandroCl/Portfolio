@@ -17,7 +17,7 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test",
+    "test:e2e": "astro build && playwright test",
     "check:contrast": "node scripts/check-contrast.ts",
     "audit:deps": "pnpm audit --audit-level=high"
   },
@@ -52,6 +52,7 @@
     "prettier-plugin-astro": "^1.1.2",
     "typescript": "6.0.3",
     "typescript-eslint": "^8.72.1",
-    "vitest": "^5.1.0"
+    "vitest": "^5.1.0",
+    "yaml": "^2.9.1"
   }
 }
