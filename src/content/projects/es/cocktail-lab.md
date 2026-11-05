@@ -26,7 +26,7 @@ screenshot: ../../../assets/screenshots/cocktail-lab.webp
 screenshotAlt: "Página de inicio de Cocktail Lab: el titular 'Find Your Perfect Mix' sobre una barra de búsqueda de ingredientes y categorías, con un degradado suave naranja y azul."
 metrics:
   - label: Cobertura de líneas
-    value: 89.42%
+    value: 89,42 %
     evidenceId: line-coverage
 evidence:
   - id: line-coverage
