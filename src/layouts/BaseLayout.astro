@@ -1,6 +1,9 @@
 ---
 import '../styles/global.css';
-import { LanguageSwitch } from '../components/navigation/LanguageSwitch';
+import archivoLatin from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
+import serifLatin from '@fontsource-variable/source-serif-4/files/source-serif-4-latin-opsz-normal.woff2?url';
+import { SiteHeader } from '../components/navigation/SiteHeader';
+import { SiteFooter } from '../components/sections/SiteFooter';
 import { SkipLink } from '../components/ui/SkipLink';
 import { defaultLocale, locales, ogLocales } from '../i18n/config';
 import {
@@ -36,6 +39,8 @@ const alternateOgLocale = ogLocales[otherLocale];
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
+    <link rel="preload" href={archivoLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={serifLatin} as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -50,16 +55,65 @@ const alternateOgLocale = ogLocales[otherLocale];
     <meta property="og:locale" content={ogLocales[locale]} />
     <meta property="og:locale:alternate" content={alternateOgLocale} />
     <meta name="twitter:card" content="summary" />
+    <script is:inline>
+      // Applies the saved theme before first paint so the page does not flash.
+      try {
+        var saved = localStorage.getItem('theme');
+        if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
+      } catch (error) {}
+    </script>
   </head>
   <body>
     <SkipLink label={t.a11y.skipLink} />
     <div class="mx-auto w-full max-w-7xl px-4 md:px-8">
-      <header class="flex justify-end pt-4">
-        <LanguageSwitch href={otherLocaleHref} label={t.nav.otherLanguage} lang={otherLocale} />
-      </header>
+      <SiteHeader
+        labels={{ site: t.site, nav: t.nav, theme: t.theme }}
+        homeHref={localizedPath(locale, '/')}
+        otherLocale={otherLocale}
+        otherLocaleHref={otherLocaleHref}
+      />
       <main id="main" tabindex="-1">
         <slot />
       </main>
+      <SiteFooter
+        labels={{ site: t.site, footer: t.footer, nav: t.nav }}
+        year={new Date().getFullYear()}
+        otherLocale={otherLocale}
+        otherLocaleHref={otherLocaleHref}
+      />
     </div>
+    <script is:inline>
+      // Progressive enhancement: reveal and wire the theme toggle, close the mobile menu on use.
+      (function () {
+        var root = document.documentElement;
+        var button = document.querySelector('[data-theme-toggle]');
+        var query = window.matchMedia('(prefers-color-scheme: dark)');
+        function isDark() {
+          var theme = root.dataset.theme;
+          return theme === 'dark' || (theme !== 'light' && query.matches);
+        }
+        if (button) {
+          var sync = function () {
+            button.setAttribute('aria-pressed', String(isDark()));
+          };
+          button.hidden = false;
+          sync();
+          button.addEventListener('click', function () {
+            var next = isDark() ? 'light' : 'dark';
+            root.dataset.theme = next;
+            try {
+              localStorage.setItem('theme', next);
+            } catch (error) {}
+            sync();
+          });
+          query.addEventListener('change', sync);
+        }
+        document.querySelectorAll('details[data-menu] a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            link.closest('details').removeAttribute('open');
+          });
+        });
+      })();
+    </script>
   </body>
 </html>
