@@ -28,6 +28,11 @@ export default defineConfig(
     rules: {
       // `any` needs a documented reason; there is no escape hatch by default.
       '@typescript-eslint/no-explicit-any': 'error',
+      // TypeScript's noPropertyAccessFromIndexSignature requires brackets for
+      // index signatures such as process.env, which this rule would reject.
+      '@typescript-eslint/dot-notation': ['error', { allowIndexSignaturePropertyAccess: true }],
+      // Numbers are safe in template literals; other types are still rejected.
+      '@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }],
     },
   },
   {
