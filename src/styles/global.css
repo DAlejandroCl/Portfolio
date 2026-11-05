@@ -27,6 +27,7 @@
   --font-*: initial;
   --font-display: 'Archivo Variable', system-ui, sans-serif;
   --font-text: 'Source Serif 4 Variable', Georgia, serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
   --text-note: 0.875rem;
   --text-note--line-height: 1.5;
@@ -140,5 +141,52 @@
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
+  }
+}
+
+/* Prose of the case studies, rendered from Markdown. */
+@layer components {
+  .case-prose {
+    max-width: 68ch;
+  }
+
+  .case-prose > * + * {
+    margin-top: 1rem;
+  }
+
+  .case-prose h3 {
+    margin-top: 2rem;
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
+    font-weight: var(--text-h3--font-weight);
+  }
+
+  .case-prose ul,
+  .case-prose ol {
+    padding-left: 1.5rem;
+  }
+
+  .case-prose ul {
+    list-style: disc;
+  }
+
+  .case-prose ol {
+    list-style: decimal;
+  }
+
+  .case-prose li + li {
+    margin-top: 0.5rem;
+  }
+
+  .case-prose code {
+    padding: 0.1em 0.3em;
+    border-radius: var(--radius-control);
+    background-color: var(--color-surface);
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+  }
+
+  .case-prose strong {
+    font-weight: 650;
   }
 }
