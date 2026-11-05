@@ -3,7 +3,7 @@ import { basename, join } from 'node:path';
 import { parse } from 'yaml';
 import { describe, expect, it } from 'vitest';
 import { locales } from '../../src/i18n/config';
-import { projectSchema } from '../../src/content/schemas';
+import { projectSchema, publicationSchema } from '../../src/content/schemas';
 
 // Vitest runs from the project root; import.meta.url is not a file URL under happy-dom.
 const PROJECTS_DIR = join(process.cwd(), 'src/content/projects');
@@ -82,6 +82,41 @@ describe('project content', () => {
           facts(base),
         );
       }
+    }
+  });
+});
+
+describe('publication content', () => {
+  const dir = join(process.cwd(), 'src/content/publications');
+  const byLocale = locales.map((locale) =>
+    readdirSync(join(dir, locale))
+      .filter((name) => name.endsWith('.md'))
+      .sort()
+      .map((name) => ({
+        locale,
+        name,
+        data: publicationSchema.parse(frontmatter(join(dir, locale, name))),
+      })),
+  );
+
+  it('has the same publications in every language', () => {
+    const [first, ...others] = byLocale.map((items) => items.map((item) => item.name));
+    for (const other of others) {
+      expect(other).toEqual(first);
+    }
+  });
+
+  it('keeps the facts identical across languages', () => {
+    const [first, ...others] = byLocale;
+    for (const other of others) {
+      other.forEach((item, index) => {
+        const base = first?.[index]?.data;
+        expect(item.data.title).toBe(base?.title);
+        expect(item.data.year).toBe(base?.year);
+        expect(item.data.venue).toBe(base?.venue);
+        expect(item.data.evidence.source.url).toBe(base?.evidence.source.url);
+        expect(item.data.evidence.status).toBe(base?.evidence.status);
+      });
     }
   });
 });
