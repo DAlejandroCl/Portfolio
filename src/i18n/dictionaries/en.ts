@@ -7,6 +7,7 @@ export const en = {
   site: {
     firstNames: 'Diego Alejandro',
     lastNames: 'Clavijo Ladino',
+    shortName: 'Diego A. Clavijo',
     role: 'Frontend Software Engineer',
   },
   meta: {
@@ -20,10 +21,20 @@ export const en = {
   nav: {
     /** Name of the other language, written in that language. */
     otherLanguage: 'Español',
+    label: 'Main',
+    homeLink: 'Home',
+    menu: 'Menu',
+    projects: 'Projects',
+    about: 'About',
+    contact: 'Contact',
+  },
+  theme: {
+    toggle: 'Dark theme',
   },
   hero: {
     statement:
       'Building maintainable, accessible and reliable web applications through thoughtful engineering.',
+    viewProjects: 'View projects',
   },
   note: {
     verified: 'Verified',
@@ -31,6 +42,115 @@ export const en = {
     stated: 'Stated',
     source: 'Source',
     checkedOn: 'Checked on',
+    statedOn: 'Provided by the author on',
+  },
+  status: {
+    production: 'Production',
+    completed: 'Completed',
+    'in-progress': 'In active development',
+  },
+  projects: {
+    title: 'Projects',
+    repository: 'Repository',
+    liveDemo: 'Live demo',
+  },
+  focus: {
+    title: 'Engineering focus',
+    items: [
+      {
+        title: 'Frontend engineering',
+        text: 'React and TypeScript applications with typed state and API data validated at runtime with Zod.',
+      },
+      {
+        title: 'Software quality',
+        text: 'Automated tests at several levels (unit, accessibility, integration and end-to-end) and continuous integration with GitHub Actions.',
+      },
+      {
+        title: 'Accessibility',
+        text: 'Semantic HTML, full keyboard operation and automated accessibility audits, working toward WCAG 2.1 AA.',
+      },
+      {
+        title: 'Technical thinking',
+        text: 'Architecture and decisions documented with their reasons, so a reader can see why something was built the way it was.',
+      },
+    ],
+  },
+  expertise: {
+    title: 'Technical expertise',
+    primary: [
+      {
+        name: 'React',
+        text: 'The core of every project on this page: component architecture, state management with Zustand and useReducer, and REST API integration.',
+      },
+      {
+        name: 'TypeScript',
+        text: 'Used in every project on this page, with Zod validating data at runtime where it enters the application.',
+      },
+    ],
+    supportingTitle: 'Supporting technologies',
+    groups: {
+      testing: 'Testing and quality',
+      data: 'State and data',
+      interface: 'Interface',
+      backend: 'Back end and databases',
+      tooling: 'Tooling and delivery',
+    },
+  },
+  about: {
+    title: 'About',
+    educationTitle: 'Education',
+    education: {
+      degree: 'Systems and Computer Engineering',
+      school: 'Universidad Católica de Colombia',
+      years: '2018–2024',
+    },
+    experienceTitle: 'Experience',
+    experience: [
+      {
+        name: 'Independent software engineering projects',
+        period: 'September 2022 – present',
+        text: 'Designing, building and documenting the projects shown on this page.',
+      },
+      {
+        name: 'Fundación de Levi',
+        period: 'February – August 2022',
+        text: 'Web developer in a team project: built the gallery section of the institutional website with HTML, CSS and JavaScript.',
+      },
+    ],
+    certificationsTitle: 'Certifications',
+    inProgress: 'In progress',
+    certifications: [
+      {
+        name: 'React & Full-Stack Development (MERN/PERN)',
+        issuer: 'Udemy',
+        year: '2026',
+        inProgress: true,
+      },
+      { name: 'AI from 0 to Production', issuer: 'BIG School', year: '2026', inProgress: false },
+      { name: 'Advanced CSS and SASS', issuer: 'Udemy', year: '2025', inProgress: false },
+    ],
+    languagesTitle: 'Languages',
+    languages: ['Spanish: native', 'English: B2'],
+    approachTitle: 'How I work',
+    approach:
+      'I choose the simplest tool that meets the requirement, test the behavior people depend on, and write down the reason for each decision.',
+  },
+  publication: {
+    title: 'Academic publication',
+    readAt: 'Read the paper',
+  },
+  contact: {
+    title: 'Contact',
+    text: 'Get in touch by email or LinkedIn. My code is on GitHub.',
+    email: 'Email',
+    linkedin: 'LinkedIn',
+    github: 'GitHub',
+  },
+  footer: {
+    label: 'Site',
+    rights: 'All rights reserved.',
+    githubProfile: 'GitHub profile',
+    siteSource: 'Source code of this site',
   },
 };
 
