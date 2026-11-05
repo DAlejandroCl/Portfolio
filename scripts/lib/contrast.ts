@@ -90,6 +90,13 @@ export const requiredPairs: readonly Pair[] = [
     usage: 'link hover on surface',
   },
   { foreground: 'on-signal', background: 'signal', minimum: 4.5, usage: 'button label' },
+  {
+    foreground: 'on-signal',
+    background: 'signal-hover',
+    minimum: 4.5,
+    usage: 'button label on hover',
+  },
+  { foreground: 'paper', background: 'ink', minimum: 4.5, usage: 'pressed toggle' },
   { foreground: 'line-strong', background: 'paper', minimum: 3, usage: 'control borders' },
   { foreground: 'signal', background: 'paper', minimum: 3, usage: 'focus ring' },
 ];
