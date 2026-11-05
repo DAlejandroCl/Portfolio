@@ -1,0 +1,122 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/archivo/wdth.css';
+@import '@fontsource-variable/source-serif-4/opsz.css';
+
+/*
+ * Design tokens. Source of truth: DESIGN_SYSTEM.md.
+ *
+ * Every color is a light-dark() pair: the first value is the light theme and
+ * the second the dark theme. scripts/check-contrast.ts parses these pairs, so
+ * a change that breaks a contrast ratio fails CI.
+ *
+ * The default Tailwind palette and font stacks are cleared so only the tokens
+ * below can be used.
+ */
+@theme static {
+  --color-*: initial;
+  --color-paper: light-dark(#f3f4f1, #0f1420);
+  --color-surface: light-dark(#e9ebe6, #161c2b);
+  --color-ink: light-dark(#1b2233, #e8eaf0);
+  --color-ink-muted: light-dark(#4b5363, #a6adbd);
+  --color-line: light-dark(#d6d9df, #2a3245);
+  --color-line-strong: light-dark(#7b8393, #6c7589);
+  --color-signal: light-dark(#3a33d1, #a5a0ff);
+  --color-signal-hover: light-dark(#2b25b0, #c2beff);
+  --color-on-signal: light-dark(#ffffff, #0f1420);
+
+  --font-*: initial;
+  --font-display: 'Archivo Variable', system-ui, sans-serif;
+  --font-text: 'Source Serif 4 Variable', Georgia, serif;
+
+  --text-note: 0.875rem;
+  --text-note--line-height: 1.5;
+  --text-body: 1.125rem;
+  --text-body--line-height: 1.65;
+  --text-lede: 1.375rem;
+  --text-lede--line-height: 1.5;
+  --text-h3: 1.5rem;
+  --text-h3--line-height: 1.3;
+  --text-h3--font-weight: 650;
+  --text-h2: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
+  --text-h2--line-height: 1.15;
+  --text-h2--font-weight: 650;
+  --text-h1: clamp(2.75rem, 1.5rem + 5vw, 5.5rem);
+  --text-h1--line-height: 1.05;
+  --text-h1--font-weight: 700;
+  --text-h1--letter-spacing: -0.02em;
+
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+
+  --radius-*: initial;
+  --radius-control: 2px;
+  --radius-media: 6px;
+
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-hero: 700ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* The system preference decides unless the visitor picks a theme. */
+:root {
+  color-scheme: light dark;
+  --space-section: clamp(4rem, 3rem + 5vw, 8rem);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-text);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    min-height: 100dvh;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+  }
+
+  a {
+    color: var(--color-signal);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  a:hover {
+    color: var(--color-signal-hover);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
