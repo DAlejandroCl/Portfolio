@@ -1,0 +1,55 @@
+---
+import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import { resolveMetrics } from '../../content/evidence';
+import type { Locale } from '../../i18n/config';
+import { getDictionary } from '../../i18n/utils';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { MarginNote } from '../shared/MarginNote';
+import { Hero } from './Hero';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getDictionary(locale);
+
+const project = await getEntry('projects', `${locale}/cocktail-lab`);
+if (!project) {
+  throw new Error(`Missing project content for locale "${locale}".`);
+}
+
+const coverage = resolveMetrics(project.data)[0];
+if (!coverage) {
+  throw new Error('The hero expects the Cocktail Lab coverage metric.');
+}
+---
+
+<BaseLayout title={t.meta.homeTitle} description={t.meta.homeDescription}>
+  <Hero
+    firstNames={t.site.firstNames}
+    lastNames={t.site.lastNames}
+    jobTitle={t.site.role}
+    statement={t.hero.statement}
+  >
+    <figure class="mt-12 grid gap-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,4fr)] lg:items-end">
+      <div class="overflow-hidden rounded-media bg-surface">
+        <Image
+          src={project.data.screenshot}
+          alt={project.data.screenshotAlt}
+          widths={[640, 960, 1280, 1600]}
+          sizes="(min-width: 64rem) 56rem, 100vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+      <figcaption class="space-y-3">
+        <p class="font-display text-h3">
+          {coverage.label}: {coverage.value}
+        </p>
+        <MarginNote evidence={coverage.evidence} locale={locale} labels={t.note} />
+      </figcaption>
+    </figure>
+  </Hero>
+</BaseLayout>
