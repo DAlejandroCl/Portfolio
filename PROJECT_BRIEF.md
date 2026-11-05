@@ -6,6 +6,7 @@ Verification date: 2026-11-03. Method: shallow clones of each repository, local 
 ## 1. Decisions
 
 ### 1.1 Positioning
+
 "Frontend Software Engineer" (React, TypeScript, frontend architecture and software quality). The professional history stays identical to the CV: independent projects since September 2022, Fundación de Levi (Feb–Aug 2022), IEEE co-authored publication as research evidence. No seniority, clients or commercial results are implied.
 
 ### 1.2 Stack: Astro with React components (approved by the owner, 2026-11-03)
@@ -22,6 +23,7 @@ Trade-off, stated honestly: the portfolio repository combines Astro pages with R
 If the owner prefers a React-only site, the alternative is React Router 7 (framework mode with prerendering) plus Tailwind, at the cost of a heavier JavaScript payload and more configuration for i18n and sitemap.
 
 ### 1.3 Working method
+
 Conventional Commits; each file change in its own commit; feature branches; no force pushes; no secrets committed.
 
 ## 2. Source inventory and claim verification
@@ -30,27 +32,27 @@ Status values: **Verified**, **Discrepancy**, **Unverified**.
 
 ### 2.1 Cocktail Lab (primary case study) — last commit 2026-04-20
 
-| Claim (CV / README) | Evidence | Status |
-|---|---|---|
-| React 19, TypeScript, Zustand, Zod, Vitest, RTL, Playwright, MSW, jest-axe, Groq, Vercel Functions, GitHub Actions | `package.json`, `api/ai/generate-recipe.ts`, `.github/workflows/ci.yml` | Verified |
-| 42 test files | 21 unit + 9 accessibility + 8 integration + 4 E2E | Verified |
-| 1,003 automated tests | Vitest executed 504 tests (docs say 503). 500 E2E derived from 100 specs x 5 projects, not executed. Sum = 1,004 | Discrepancy (off by 1) |
-| 100% passing in CI | Local run: 503 passed, 1 failed (`tests/unit/router.test.tsx`, route `/favorites`; the store mock lacks AI state, so `FavoritesPage` throws `reading 'length'`). GitHub Actions status not accessible | Discrepancy |
-| 89% line coverage | Measured 89.42% lines, 87.81% statements, 88.54% functions, 81.34% branches (failing test included) | Verified |
-| 5 browser/device engines | `playwright.config.ts`: Chromium, Firefox, WebKit, Pixel 5, iPhone 13 | Verified |
-| WCAG 2.1 AA | Declared as a target in README and `docs/accessibility.md`; 82 jest-axe audits. No in-browser contrast audit verified | Verified as target only |
-| Production app | `https://cocktail-lab-devacl.vercel.app` could not be opened from the research environment | Unverified |
+| Claim (CV / README)                                                                                                | Evidence                                                                                                                                                                                              | Status                  |
+| ------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| React 19, TypeScript, Zustand, Zod, Vitest, RTL, Playwright, MSW, jest-axe, Groq, Vercel Functions, GitHub Actions | `package.json`, `api/ai/generate-recipe.ts`, `.github/workflows/ci.yml`                                                                                                                               | Verified                |
+| 42 test files                                                                                                      | 21 unit + 9 accessibility + 8 integration + 4 E2E                                                                                                                                                     | Verified                |
+| 1,003 automated tests                                                                                              | Vitest executed 504 tests (docs say 503). 500 E2E derived from 100 specs x 5 projects, not executed. Sum = 1,004                                                                                      | Discrepancy (off by 1)  |
+| 100% passing in CI                                                                                                 | Local run: 503 passed, 1 failed (`tests/unit/router.test.tsx`, route `/favorites`; the store mock lacks AI state, so `FavoritesPage` throws `reading 'length'`). GitHub Actions status not accessible | Discrepancy             |
+| 89% line coverage                                                                                                  | Measured 89.42% lines, 87.81% statements, 88.54% functions, 81.34% branches (failing test included)                                                                                                   | Verified                |
+| 5 browser/device engines                                                                                           | `playwright.config.ts`: Chromium, Firefox, WebKit, Pixel 5, iPhone 13                                                                                                                                 | Verified                |
+| WCAG 2.1 AA                                                                                                        | Declared as a target in README and `docs/accessibility.md`; 82 jest-axe audits. No in-browser contrast audit verified                                                                                 | Verified as target only |
+| Production app                                                                                                     | `https://cocktail-lab-devacl.vercel.app` could not be opened from the research environment                                                                                                            | Unverified              |
 
 ### 2.2 Streamline Inventory (secondary case study) — last commit 2026-07-16
 
-| Claim | Evidence | Status |
-|---|---|---|
-| PERN, strict typing, layered architecture | Express 5, Sequelize, React 19, TypeScript; controllers / services / models separation | Verified |
-| Monorepo, pnpm, Turborepo | Two independent npm packages (`backend/`, `frontend/`), a `package-lock.json` in each, no workspace file, no `turbo.json` | Discrepancy |
-| Docker | No Dockerfile or compose file in the repository | Discrepancy |
-| GitHub Actions CI/CD | 4 workflows exist. Backend typecheck and coverage use `|| true` (non-blocking). E2E workflow installs only Chromium and runs 3 of 5 spec files | Verified, partial |
-| Automated tests | `docs/TESTING.md` declares 312 automated tests and 35 E2E specs. Not executed | Unverified |
-| Implemented scope | JWT cookie auth, products and categories API, helmet / rate limit / CORS, Swagger, migrations, image upload (multer + sharp), frontend pages: landing, login, dashboard, products CRUD, settings | Verified (code present) |
+| Claim                                     | Evidence                                                                                                                                                                                         | Status                  |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------- |
+| PERN, strict typing, layered architecture | Express 5, Sequelize, React 19, TypeScript; controllers / services / models separation                                                                                                           | Verified                |
+| Monorepo, pnpm, Turborepo                 | Two independent npm packages (`backend/`, `frontend/`), a `package-lock.json` in each, no workspace file, no `turbo.json`                                                                        | Discrepancy             |
+| Docker                                    | No Dockerfile or compose file in the repository                                                                                                                                                  | Discrepancy             |
+| GitHub Actions CI/CD                      | 4 workflows exist. Backend typecheck and coverage use `                                                                                                                                          |                         | true` (non-blocking). E2E workflow installs only Chromium and runs 3 of 5 spec files | Verified, partial |
+| Automated tests                           | `docs/TESTING.md` declares 312 automated tests and 35 E2E specs. Not executed                                                                                                                    | Unverified              |
+| Implemented scope                         | JWT cookie auth, products and categories API, helmet / rate limit / CORS, Swagger, migrations, image upload (multer + sharp), frontend pages: landing, login, dashboard, products CRUD, settings | Verified (code present) |
 
 The repository README is outdated (describes product CRUD only, calls itself "production-grade"). It must not be used as a source for the case study.
 
@@ -72,28 +74,28 @@ Both are server-rendered Node.js + Express + EJS applications (ReadLog also Post
 
 ### 2.7 Other facts
 
-| Item | Status |
-|---|---|
-| IEEE publication 10854835 (title, year, coauthorship) | Unverified: page not reachable from the research environment; data comes from the owner's context document |
-| Fundación de Levi (Feb–Aug 2022, gallery in HTML/CSS/JS) | Unverified: CV only |
-| CV (ATS and visual versions) | Received 2026-11-03. Both versions carry the same content (see 2.8) |
-| LinkedIn `https://www.linkedin.com/in/dalejandrocl/`, GitHub `https://github.com/DAlejandroCl` | Provided by the owner, not opened |
-| Email | Present in both CVs. Publishing it is an owner decision (confirm before launch) |
-| Phone number | Present in both CVs. **Not published** on the site unless the owner opts in (spam and privacy risk on a public page) |
-| Photo | Missing; optional |
-| Portfolio repository `DAlejandroCl/Portfolio` | Public and empty (cloned 2026-11-03). Pushing from this session is not possible until the GitHub account is linked, so work is committed locally and the owner pushes |
+| Item                                                                                           | Status                                                                                                                                                                |
+| ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IEEE publication 10854835 (title, year, coauthorship)                                          | Unverified: page not reachable from the research environment; data comes from the owner's context document                                                            |
+| Fundación de Levi (Feb–Aug 2022, gallery in HTML/CSS/JS)                                       | Unverified: CV only                                                                                                                                                   |
+| CV (ATS and visual versions)                                                                   | Received 2026-11-03. Both versions carry the same content (see 2.8)                                                                                                   |
+| LinkedIn `https://www.linkedin.com/in/dalejandrocl/`, GitHub `https://github.com/DAlejandroCl` | Provided by the owner, not opened                                                                                                                                     |
+| Email                                                                                          | Present in both CVs. Publishing it is an owner decision (confirm before launch)                                                                                       |
+| Phone number                                                                                   | Present in both CVs. **Not published** on the site unless the owner opts in (spam and privacy risk on a public page)                                                  |
+| Photo                                                                                          | Missing; optional                                                                                                                                                     |
+| Portfolio repository `DAlejandroCl/Portfolio`                                                  | Public and empty (cloned 2026-11-03). Pushing from this session is not possible until the GitHub account is linked, so work is committed locally and the owner pushes |
 
 ### 2.8 CV cross-check
 
 Both CV versions (ATS and visual) were read and contain the same claims.
 
-| CV statement | Evidence | Status |
-|---|---|---|
-| Streamline: "monorepo (pnpm + Turborepo)" | Not present in the repository (see 2.2) | Discrepancy, appears in both CVs |
-| Skills: Docker | No Docker usage found in Streamline; other repositories were not checked for it | Unverified |
-| Cocktail Lab: "1,003 tests ... 100% passing in CI", "WCAG 2.1 AA validated with axe-core" | See 2.1. Automated axe audits do not prove WCAG conformance, so the site will say "targets WCAG 2.1 AA" | Discrepancy |
-| Certifications: React and Full-Stack Development (MERN/PERN), Udemy, in progress, 2026; AI from 0 to Production, BIG School, 2026; Advanced CSS and SASS, Udemy, 2025 | Stated in the CV; no credential links provided | Unverified (listed as stated; the in-progress course is labeled as in progress) |
-| Role title "Junior Frontend React Developer" for independent projects | CV wording | Kept as is; the site headline uses "Frontend Software Engineer" as agreed |
+| CV statement                                                                                                                                                          | Evidence                                                                                                | Status                                                                          |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Streamline: "monorepo (pnpm + Turborepo)"                                                                                                                             | Not present in the repository (see 2.2)                                                                 | Discrepancy, appears in both CVs                                                |
+| Skills: Docker                                                                                                                                                        | No Docker usage found in Streamline; other repositories were not checked for it                         | Unverified                                                                      |
+| Cocktail Lab: "1,003 tests ... 100% passing in CI", "WCAG 2.1 AA validated with axe-core"                                                                             | See 2.1. Automated axe audits do not prove WCAG conformance, so the site will say "targets WCAG 2.1 AA" | Discrepancy                                                                     |
+| Certifications: React and Full-Stack Development (MERN/PERN), Udemy, in progress, 2026; AI from 0 to Production, BIG School, 2026; Advanced CSS and SASS, Udemy, 2025 | Stated in the CV; no credential links provided                                                          | Unverified (listed as stated; the in-progress course is labeled as in progress) |
+| Role title "Junior Frontend React Developer" for independent projects                                                                                                 | CV wording                                                                                              | Kept as is; the site headline uses "Frontend Software Engineer" as agreed       |
 
 ## 3. Publishing rules derived from the audit
 
