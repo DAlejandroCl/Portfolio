@@ -136,3 +136,7 @@ Blog or articles, contact form, analytics, CMS, comments, animated backgrounds, 
 - The CV download (hero action, contact link, FR-03) is postponed until phone-free CV files are provided. Until then the hero has one action.
 - Project rows link to the repository until the case study pages exist (Phase 5). The "Engineering focus" items will link to their proof in the case studies at the same time.
 - Structured data (`Person`, `ScholarlyArticle`) is added in Phase 7, together with the Lighthouse pass.
+- **Phase 5 (2026-11-05).** A case study is the body of the project file, split into sections with `## Title {#id}`. Each section can place evidence items in the margin with `<!-- evidence: id, id -->`, and the build fails if a required section is missing or cites evidence that does not exist. Full case studies (Cocktail Lab, Streamline Inventory) have eleven sections; short ones (Weather Finder, Calorie Tracker) have six.
+- Streamline Inventory has no "Planned" features yet: the list contains only what exists or is in progress. Planned items need the owner's input and are not invented. Its page lists known gaps (default admin account, no migrations, non-strict CI) because they were found in the code.
+- Test counts are not quoted for any project, and Lighthouse figures are not published for projects that have not been measured.
+- Weather Finder and Calorie Tracker link no live demo, because none has been verified.
