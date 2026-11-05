@@ -253,3 +253,11 @@ Risk and guard: changing glyph widths could cause layout shift or delay the larg
 ## 11. Mapping to code (Phase 3)
 
 `src/styles/global.css` holds the tokens in `@theme` and the dark-theme overrides; `src/components/ui/` the primitives; `src/components/projects/` the rows and markers; `src/components/shared/` the margin note and figure. Pages, layouts and content live in Astro files; components are TSX files; a client directive is added only when interaction justifies hydration.
+
+## 12. Implementation notes (Phase 4, 2026-11-05)
+
+- **Browser support.** Color tokens use CSS `light-dark()`, which needs Chrome 123, Firefox 120 or Safari 17.5. Older browsers ignore the declaration; the site is not designed for them.
+- **Hero animation, measured.** Lab runs on the built site (Chromium, 5 runs each, mobile profile with 4x CPU throttling and slow 4G): CLS 0 on desktop and 0.0016 on mobile, identical with and without the animation; LCP unchanged within noise (about 60 ms desktop, about 630 ms mobile profile, localhost). Acceptance criterion AC-07 is met. Guards in place: the animation is disabled under `prefers-reduced-motion` and below `sm` (40rem), where both name lines always fit and wrapping cannot change, and the Archivo and Source Serif latin files are preloaded to avoid a font-swap shift.
+- **Small-screen menu.** The links appear twice in the markup (row on `md` and up, native `details` below), and only one is displayed at a time, so assistive technology never reads them twice. The panel is anchored to the right edge of the header.
+- **Theme toggle.** The button is `hidden` until the inline script runs, so without JavaScript the system preference decides and no dead control is shown.
+- **Project rows** are text-only in Phase 4; screenshots are used in the hero and will be used in the case study pages.
