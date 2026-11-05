@@ -1,8 +1,26 @@
 import { expect, test, type Page } from '@playwright/test';
 
 const pages = [
-  { path: '/', skipLabel: 'Skip to content', switchLabel: 'Español' },
-  { path: '/es/', skipLabel: 'Saltar al contenido', switchLabel: 'English' },
+  {
+    path: '/',
+    skipLabel: 'Skip to content',
+    name: 'Diego A. Clavijo',
+    links: ['Projects', 'About', 'Contact'],
+    menu: 'Menu',
+    switchLabel: 'Español',
+    theme: 'Dark theme',
+    action: 'View projects',
+  },
+  {
+    path: '/es/',
+    skipLabel: 'Saltar al contenido',
+    name: 'Diego A. Clavijo',
+    links: ['Proyectos', 'Acerca de mí', 'Contacto'],
+    menu: 'Menú',
+    switchLabel: 'English',
+    theme: 'Tema oscuro',
+    action: 'Ver proyectos',
+  },
 ] as const;
 
 interface FocusedElement {
@@ -26,7 +44,7 @@ async function focusedElement(page: Page): Promise<FocusedElement | null> {
   });
 }
 
-for (const { path, skipLabel, switchLabel } of pages) {
+for (const { path, skipLabel, name, links, menu, switchLabel, theme, action } of pages) {
   test.describe(path, () => {
     test('the skip link is the first tab stop and moves focus to the main content', async ({
       page,
@@ -42,11 +60,18 @@ for (const { path, skipLabel, switchLabel } of pages) {
       await expect(page.locator('main')).toBeFocused();
     });
 
-    test('every tab stop has a visible focus ring, in a logical order', async ({ page }) => {
+    test('tab stops follow the visual order and each has a visible focus ring', async ({
+      page,
+      isMobile,
+    }) => {
       await page.goto(path);
 
+      const expected = isMobile
+        ? [skipLabel, name, menu, switchLabel, theme, action]
+        : [skipLabel, name, ...links, switchLabel, theme, action];
+
       const stops: FocusedElement[] = [];
-      for (let index = 0; index < 10; index += 1) {
+      while (stops.length < expected.length) {
         await page.keyboard.press('Tab');
         const stop = await focusedElement(page);
         if (stop === null) {
@@ -55,12 +80,7 @@ for (const { path, skipLabel, switchLabel } of pages) {
         stops.push(stop);
       }
 
-      // Skip link, language switch, then the source link of the hero's margin note.
-      expect(stops.map((stop) => stop.text)).toEqual([
-        skipLabel,
-        switchLabel,
-        expect.stringMatching(/Cocktail Lab/) as unknown as string,
-      ]);
+      expect(stops.map((stop) => stop.text)).toEqual(expected);
       for (const stop of stops) {
         expect(stop.outlineStyle, `${stop.text} has no focus outline`).toBe('solid');
         expect(
