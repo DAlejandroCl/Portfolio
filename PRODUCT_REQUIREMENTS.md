@@ -10,11 +10,11 @@ Primary conversions, in order: understand the positioning, explore the strongest
 
 ## 2. Audiences
 
-| Audience | What they need | How the site serves it |
-|---|---|---|
-| Technical recruiter | Role fit in under a minute, a CV they can forward | Hero with a plain statement, stack summary, CV download in the hero and contact |
-| Engineering manager / interviewer | Evidence of engineering judgement, not a skills list | Case studies with decisions, trade-offs, and sourced metrics |
-| Potential collaborator | Code they can read, a way to reach Diego | Repository and demo links on every project, contact links |
+| Audience                          | What they need                                       | How the site serves it                                                          |
+| --------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Technical recruiter               | Role fit in under a minute, a CV they can forward    | Hero with a plain statement, stack summary, CV download in the hero and contact |
+| Engineering manager / interviewer | Evidence of engineering judgement, not a skills list | Case studies with decisions, trade-offs, and sourced metrics                    |
+| Potential collaborator            | Code they can read, a way to reach Diego             | Repository and demo links on every project, contact links                       |
 
 ## 3. Positioning and voice
 
@@ -27,15 +27,15 @@ Primary conversions, in order: understand the positioning, explore the strongest
 
 ## 4. Sitemap and routes
 
-| English | Spanish | Purpose |
-|---|---|---|
-| `/` | `/es/` | Home (single page with sections) |
-| `/projects/` | `/es/projects/` | Project archive |
-| `/projects/cocktail-lab/` | `/es/projects/cocktail-lab/` | Full case study |
+| English                           | Spanish                              | Purpose                                                  |
+| --------------------------------- | ------------------------------------ | -------------------------------------------------------- |
+| `/`                               | `/es/`                               | Home (single page with sections)                         |
+| `/projects/`                      | `/es/projects/`                      | Project archive                                          |
+| `/projects/cocktail-lab/`         | `/es/projects/cocktail-lab/`         | Full case study                                          |
 | `/projects/streamline-inventory/` | `/es/projects/streamline-inventory/` | Full case study with Implemented / In progress / Planned |
-| `/projects/weather-finder/` | `/es/projects/weather-finder/` | Short case study |
-| `/projects/calorie-tracker/` | `/es/projects/calorie-tracker/` | Short case study |
-| `/404` | n/a | Single not-found page with links in both languages |
+| `/projects/weather-finder/`       | `/es/projects/weather-finder/`       | Short case study                                         |
+| `/projects/calorie-tracker/`      | `/es/projects/calorie-tracker/`      | Short case study                                         |
+| `/404`                            | n/a                                  | Single not-found page with links in both languages       |
 
 Slugs are identical in both languages. The About content lives in the home page; a separate About page is not created because there is not enough content to justify it.
 
@@ -75,16 +75,16 @@ Astro Content Collections validated with Zod:
 
 ## 6. Functional requirements
 
-| ID | Requirement |
-|---|---|
-| FR-01 | Language switch keeps the user on the equivalent page in the other language |
-| FR-02 | Theme switch (light, dark) respects the system preference by default and persists the choice |
-| FR-03 | CV download works in both languages; links to the CV file that matches the page language |
+| ID    | Requirement                                                                                                           |
+| ----- | --------------------------------------------------------------------------------------------------------------------- |
+| FR-01 | Language switch keeps the user on the equivalent page in the other language                                           |
+| FR-02 | Theme switch (light, dark) respects the system preference by default and persists the choice                          |
+| FR-03 | CV download works in both languages; links to the CV file that matches the page language                              |
 | FR-04 | Every metric shows its margin note (source, verification date); on small screens the note appears under the paragraph |
-| FR-05 | Project cards and pages are rendered from content collections |
-| FR-06 | All external links open with `rel="noopener noreferrer"` and have a clear accessible name |
-| FR-07 | Essential content and navigation work without JavaScript; JavaScript only enhances (theme switch) |
-| FR-08 | A not-found page offers links home in both languages |
+| FR-05 | Project cards and pages are rendered from content collections                                                         |
+| FR-06 | All external links open with `rel="noopener noreferrer"` and have a clear accessible name                             |
+| FR-07 | Essential content and navigation work without JavaScript; JavaScript only enhances (theme switch)                     |
+| FR-08 | A not-found page offers links home in both languages                                                                  |
 
 ## 7. Non-functional requirements
 
@@ -100,20 +100,20 @@ Astro Content Collections validated with Zod:
 
 ## 8. Acceptance criteria
 
-| ID | Criterion | How it is verified |
-|---|---|---|
-| AC-01 | All routes in section 4 exist in both languages and return 200 | E2E crawl of the sitemap |
-| AC-02 | Every rendered metric has an evidence item with source and date | Build-time schema check (negative test included) |
-| AC-03 | No axe violations on any route, both languages, both themes | Playwright + axe-core |
-| AC-04 | Keyboard-only walkthrough completes hero, projects, case study, contact and CV download | Playwright test plus manual pass |
-| AC-05 | Contrast >= 4.5:1 for text and >= 3:1 for large text and UI components in every token pair | Script in CI |
-| AC-06 | Lighthouse >= 95 in four categories on home and Cocktail Lab page, mobile profile | Lighthouse CI report attached to the PR |
-| AC-07 | Core Web Vitals targets met in lab measurement, results recorded in the repository | Report in `docs/` |
-| AC-08 | `hreflang`, canonical and `lang` are correct and reciprocal on every page | Unit and E2E tests |
-| AC-09 | Site works with JavaScript disabled for reading and navigation | Playwright with JS disabled |
-| AC-10 | Streamline page lists no tooling the repository does not contain | Manual review against `PROJECT_BRIEF.md` section 3 |
-| AC-11 | `astro check`, lint, unit tests, E2E and production build pass in CI | GitHub Actions |
-| AC-12 | CV download works in both languages | E2E |
+| ID    | Criterion                                                                                  | How it is verified                                 |
+| ----- | ------------------------------------------------------------------------------------------ | -------------------------------------------------- |
+| AC-01 | All routes in section 4 exist in both languages and return 200                             | E2E crawl of the sitemap                           |
+| AC-02 | Every rendered metric has an evidence item with source and date                            | Build-time schema check (negative test included)   |
+| AC-03 | No axe violations on any route, both languages, both themes                                | Playwright + axe-core                              |
+| AC-04 | Keyboard-only walkthrough completes hero, projects, case study, contact and CV download    | Playwright test plus manual pass                   |
+| AC-05 | Contrast >= 4.5:1 for text and >= 3:1 for large text and UI components in every token pair | Script in CI                                       |
+| AC-06 | Lighthouse >= 95 in four categories on home and Cocktail Lab page, mobile profile          | Lighthouse CI report attached to the PR            |
+| AC-07 | Core Web Vitals targets met in lab measurement, results recorded in the repository         | Report in `docs/`                                  |
+| AC-08 | `hreflang`, canonical and `lang` are correct and reciprocal on every page                  | Unit and E2E tests                                 |
+| AC-09 | Site works with JavaScript disabled for reading and navigation                             | Playwright with JS disabled                        |
+| AC-10 | Streamline page lists no tooling the repository does not contain                           | Manual review against `PROJECT_BRIEF.md` section 3 |
+| AC-11 | `astro check`, lint, unit tests, E2E and production build pass in CI                       | GitHub Actions                                     |
+| AC-12 | CV download works in both languages                                                        | E2E                                                |
 
 ## 9. Testing scope
 
