@@ -105,10 +105,10 @@ describe('dictionaries', () => {
   });
 
   it('does not leave English text in the Spanish dictionary', () => {
-    // Names, brands and years are the same in both languages on purpose.
+    // Names, brands, years and the "CV (PDF)" label are the same in both languages on purpose.
     const sameInBoth = [
       /^site\.(firstNames|lastNames|shortName)$/,
-      /^contact\.(linkedin|github)$/,
+      /^contact\.(linkedin|github|cv)$/,
       /^about\.education\.(years|school)$/,
       /^about\.experience\.1\.name$/,
       /^about\.certifications\.\d+\.(name|issuer|year)$/,
