@@ -31,6 +31,7 @@ export const es: Dictionary = {
     statement:
       'Construyo aplicaciones web mantenibles, accesibles y confiables a través de una ingeniería cuidadosa.',
     viewProjects: 'Ver proyectos',
+    downloadCv: 'Descargar CV (PDF)',
   },
   note: {
     verified: 'Verificado',
@@ -185,6 +186,7 @@ export const es: Dictionary = {
     email: 'Correo',
     linkedin: 'LinkedIn',
     github: 'GitHub',
+    cv: 'CV (PDF)',
   },
   footer: {
     label: 'Sitio',
