@@ -23,4 +23,4 @@ The code lives in stacked phase branches and `main` holds only the README and th
 
 - Open `/robots.txt` and `/sitemap-index.xml` and check that the origin is the real one.
 - Check the page in the Rich Results Test and a social-card preview.
-- The CV download needs the phone-free CV files (see PRODUCT_REQUIREMENTS.md §12).
+- Open both CV links (`/cv/...pdf`) on the live site.
