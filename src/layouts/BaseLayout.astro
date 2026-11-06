@@ -5,6 +5,7 @@ import serifLatin from '@fontsource-variable/source-serif-4/files/source-serif-4
 import { SiteHeader } from '../components/navigation/SiteHeader';
 import { SiteFooter } from '../components/sections/SiteFooter';
 import { SkipLink } from '../components/ui/SkipLink';
+import { serializeJsonLd, type JsonLd } from '../seo/structuredData';
 import { defaultLocale, locales, ogLocales } from '../i18n/config';
 import {
   alternateLinks,
@@ -19,9 +20,11 @@ interface Props {
   description: string;
   /** Pages that should not be indexed or listed in other languages (the 404). */
   noindex?: boolean;
+  /** Structured data for crawlers; not executed by the browser. */
+  jsonLd?: JsonLd[];
 }
 
-const { title, description, noindex = false } = Astro.props;
+const { title, description, noindex = false, jsonLd = [] } = Astro.props;
 
 const pathname = Astro.url.pathname;
 const locale = getLocaleFromPath(pathname);
@@ -33,6 +36,8 @@ const alternates = alternateLinks(pathname, site);
 const otherLocale = locales.find((candidate) => candidate !== locale) ?? defaultLocale;
 const otherLocaleHref = localizedPath(otherLocale, noindex ? '/' : pathname);
 const alternateOgLocale = ogLocales[otherLocale];
+const ogImage = new URL('/og.png', site).href;
+const ogImageAlt = `${t.site.firstNames} ${t.site.lastNames}, ${t.site.role}`;
 ---
 
 <!doctype html>
@@ -43,6 +48,7 @@ const alternateOgLocale = ogLocales[otherLocale];
     <meta name="color-scheme" content="light dark" />
     <link rel="preload" href={archivoLatin} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={serifLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>{title}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
@@ -56,7 +62,14 @@ const alternateOgLocale = ogLocales[otherLocale];
     {!noindex && <meta property="og:url" content={canonical} />}
     <meta property="og:locale" content={ogLocales[locale]} />
     <meta property="og:locale:alternate" content={alternateOgLocale} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {jsonLd.map((data) => (
+      <script type="application/ld+json" set:html={serializeJsonLd(data)} />
+    ))}
     <script is:inline>
       // Applies the saved theme before first paint so the page does not flash.
       try {
