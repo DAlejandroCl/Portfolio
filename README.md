@@ -4,7 +4,7 @@ Bilingual (EN default, ES under `/es/`) engineering portfolio of a frontend soft
 
 Its idea is that every technical claim carries its source: each metric is shown with where it comes from and when it was checked, and the build fails if a metric has no source.
 
-**Status:** built and tested locally; not deployed yet. Done: the home page, the project list, four case studies and a 404 page in both languages, structured data, `robots.txt`, favicon and social image, and the Vercel configuration. Pending: choosing the domain and deploying (see [DEPLOYMENT.md](DEPLOYMENT.md)), the CV download (it needs CV files without the phone number) and the owner's review of the written copy. Acceptance status per requirement is in [PRODUCT_REQUIREMENTS.md](PRODUCT_REQUIREMENTS.md#13-acceptance-status); the CI workflow has not run on GitHub yet.
+**Status:** built and tested locally; not deployed yet. Done: the home page, the CV download in both languages, the project list, four case studies and a 404 page in both languages, structured data, `robots.txt`, favicon and social image, and the Vercel configuration. Pending: choosing the domain and deploying (see [DEPLOYMENT.md](DEPLOYMENT.md)), the owner's review of the written copy. Acceptance status per requirement is in [PRODUCT_REQUIREMENTS.md](PRODUCT_REQUIREMENTS.md#13-acceptance-status); the CI workflow has not run on GitHub yet.
 
 ## Principles
 
