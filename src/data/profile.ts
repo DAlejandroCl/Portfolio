@@ -12,6 +12,14 @@ export const profile = {
     email: 'mailto:alejandro1clavijo3@gmail.com',
     siteSource: 'https://github.com/DAlejandroCl/Portfolio',
   },
+  /**
+   * The CV for each language: the ATS version, which is plain text that screen
+   * readers and parsers can read. The files have no phone number.
+   */
+  cv: {
+    en: '/cv/Diego_Alejandro_Clavijo_Ladino_Resume.pdf',
+    es: '/cv/Diego_Alejandro_Clavijo_Ladino_CV.pdf',
+  },
   /** Where each engineering strength is shown, in the same order as the dictionary items. */
   focusProof: [
     { slug: 'cocktail-lab', section: 'architecture' },
