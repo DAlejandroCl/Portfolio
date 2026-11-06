@@ -1,6 +1,6 @@
 # PROJECT_BRIEF — Diego Alejandro Clavijo Ladino, Engineering Portfolio
 
-Phase 0 (Discovery) deliverable. Status: **awaiting approval**. Nothing has been implemented.
+Phase 0 (Discovery) deliverable. Status: approved by the owner on 2026-11-03. This is a dated record of the discovery phase: the facts in sections 2 and 3 were checked on 2026-11-03 and are not updated when the repositories change. Later changes are in `PRODUCT_REQUIREMENTS.md` section 12.
 Verification date: 2026-11-03. Method: shallow clones of each repository, local test run for Cocktail Lab, review of workflows and documentation.
 
 ## 1. Decisions
@@ -74,16 +74,16 @@ Both are server-rendered Node.js + Express + EJS applications (ReadLog also Post
 
 ### 2.7 Other facts
 
-| Item                                                                                           | Status                                                                                                                                                                |
-| ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| IEEE publication 10854835 (title, year, coauthorship)                                          | Unverified: page not reachable from the research environment; data comes from the owner's context document                                                            |
-| Fundación de Levi (Feb–Aug 2022, gallery in HTML/CSS/JS)                                       | Unverified: CV only                                                                                                                                                   |
-| CV (ATS and visual versions)                                                                   | Received 2026-11-03. Both versions carry the same content (see 2.8)                                                                                                   |
-| LinkedIn `https://www.linkedin.com/in/dalejandrocl/`, GitHub `https://github.com/DAlejandroCl` | Provided by the owner, not opened                                                                                                                                     |
-| Email                                                                                          | Present in both CVs. Publishing it is an owner decision (confirm before launch)                                                                                       |
-| Phone number                                                                                   | Present in both CVs. **Not published** on the site unless the owner opts in (spam and privacy risk on a public page)                                                  |
-| Photo                                                                                          | Missing; optional                                                                                                                                                     |
-| Portfolio repository `DAlejandroCl/Portfolio`                                                  | Public and empty (cloned 2026-11-03). Pushing from this session is not possible until the GitHub account is linked, so work is committed locally and the owner pushes |
+| Item                                                                                           | Status                                                                                                               |
+| ---------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| IEEE publication 10854835 (title, year, coauthorship)                                          | Unverified: page not reachable from the research environment; data comes from the owner's context document           |
+| Fundación de Levi (Feb–Aug 2022, gallery in HTML/CSS/JS)                                       | Unverified: CV only                                                                                                  |
+| CV (ATS and visual versions)                                                                   | Received 2026-11-03. Both versions carry the same content (see 2.8)                                                  |
+| LinkedIn `https://www.linkedin.com/in/dalejandrocl/`, GitHub `https://github.com/DAlejandroCl` | Provided by the owner, not opened                                                                                    |
+| Email                                                                                          | Present in both CVs. Publishing it is an owner decision (confirm before launch)                                      |
+| Phone number                                                                                   | Present in both CVs. **Not published** on the site unless the owner opts in (spam and privacy risk on a public page) |
+| Photo                                                                                          | Missing; optional                                                                                                    |
+| Portfolio repository `DAlejandroCl/Portfolio`                                                  | Public and empty when cloned on 2026-11-03. Since then the work is pushed in phase branches (see `README.md`)        |
 
 ### 2.8 CV cross-check
 
@@ -115,7 +115,7 @@ Until the discrepancies are resolved (owner decision: leave as is for now):
 
 ## 5. Open items for the owner
 
-1. Link the GitHub account if pushes from the session are wanted; otherwise the owner pushes the branches.
+1. Done: the GitHub account was linked and the branches are pushed.
 2. Confirm the public email and decide whether the phone number stays off the site (default: off).
 3. Decide whether Valorant is mentioned at all (default: only reachable through the GitHub profile).
 4. Decide, when convenient, how to resolve the discrepancies in 2.1, 2.2 and 2.8. Until then the publishing rules in section 3 apply.
@@ -125,4 +125,4 @@ Closed on 2026-11-03: stack (Astro with React components), fourth project (Calor
 
 ## 6. Next
 
-Phase 1 (`PRODUCT_REQUIREMENTS.md`) and Phase 2 (`DESIGN_SYSTEM.md`) are drafted on branch `docs/phase-1-2-requirements-and-design`. Phase 3 (scaffolding) starts after the owner reviews them.
+Phases 1 to 8 are done: requirements, design system, infrastructure, home page, case studies, bilingual parity, SEO assets and the deployment configuration. See `README.md` for the branches and `PRODUCT_REQUIREMENTS.md` section 13 for what is still open.
