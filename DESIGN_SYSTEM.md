@@ -1,6 +1,6 @@
 # DESIGN_SYSTEM — Engineering Portfolio
 
-Phase 2 deliverable. Status: draft for owner review. The owner approved the "margin notes" direction and delegated the visual decisions. Every choice below states its reason, as required by the master context.
+Phase 2 deliverable, approved by the owner on 2026-11-03 and amended during implementation (section 12 lists what changed). The owner approved the "margin notes" direction and delegated the visual decisions. Every choice below states its reason, as required by the master context.
 
 ## 1. Design intent
 
@@ -58,7 +58,7 @@ Rationale: a slightly green-grey light paper avoids the cream cliché and sits w
 | line-strong on paper (control borders) | 3.0     | 3.45  | 3.98  |
 | signal on paper (focus ring)           | 3.0     | 7.39  | 7.95  |
 
-All pairs pass. `--color-line` is decorative (it separates content and does not identify a control), so it is exempt from the 3:1 rule. The script moves to `scripts/check-contrast.mjs` in Phase 3 and runs in CI (acceptance criterion AC-05); a token change that fails a pair breaks the build.
+All pairs pass. `--color-line` is decorative (it separates content and does not identify a control), so it is exempt from the 3:1 rule. The script is `scripts/check-contrast.ts` (`pnpm check:contrast`). It runs in CI and in a unit test (acceptance criterion AC-05), so a token change that fails a pair breaks the build.
 
 ## 3. Typography
 
@@ -85,18 +85,18 @@ Rationale: Archivo's width axis gives the headline personality without decoratio
 
 Rules: sentence case everywhere, no uppercase transforms, no tracked-out labels. Interface labels use Archivo semibold at `0.9375rem`. Monospace appears only inside real code. Fonts are subset to the Latin ranges that cover English and Spanish (including á, é, í, ó, ú, ñ, ¿, ¡), loaded with `font-display: swap`, and the display font used above the fold is preloaded.
 
-Install check for Phase 3: confirm that the chosen package exposes Archivo's width axis. If it does not, the hero motion is dropped and the headline uses a fixed width; nothing else depends on it.
+Resolved in Phase 3: the chosen package (`@fontsource-variable/archivo`) exposes the width axis, so the hero motion is kept.
 
 ## 4. Space, borders, radius, shadows, breakpoints
 
 | Group               | Tokens                                                                                                                                                                                                 |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Spacing (4 px base) | `0.25, 0.5, 0.75, 1, 1.5, 2, 3, 4, 6, 8` rem as `--space-1 … --space-10`                                                                                                                               |
+| Spacing (4 px base) | Tailwind's default 4 px scale through its utilities; the only custom token is `--space-section`                                                                                                        |
 | Section rhythm      | `--space-section: clamp(4rem, 3rem + 5vw, 8rem)`                                                                                                                                                       |
 | Gutter              | `1rem` on mobile, `2rem` from `md`                                                                                                                                                                     |
-| Borders             | `--border-rule: 1px solid var(--color-line)`; `--border-control: 1px solid var(--color-line-strong)`                                                                                                   |
+| Borders             | 1px rules in `line` (`border-line`) and 1px control borders in `line-strong` (`border-line-strong`), as utilities                                                                                      |
 | Radius              | `--radius-control: 2px` (buttons, inputs); `--radius-media: 6px` (screenshot frames). Rules and rows have no radius. Two values on purpose: radius follows the role of the element, not a global style |
-| Shadows             | None on content. `--shadow-popover` is reserved for a future menu; focus never uses a shadow                                                                                                           |
+| Shadows             | None. No shadow token exists; focus never uses a shadow                                                                                                                                                |
 | Breakpoints         | `sm 40rem`, `md 48rem`, `lg 64rem`, `xl 80rem` (content max width 80rem)                                                                                                                               |
 
 Tailwind CSS 4 is configured CSS-first: these tokens live in `@theme` in `src/styles/global.css`; there is no `tailwind.config` file. Dark mode uses a `data-theme` attribute on `<html>`, with the system preference as the default.
@@ -125,7 +125,7 @@ DOM order puts each note immediately after its claim, so screen-reader and no-CS
 |  Frontend Software Engineer. Building maintainable, accessible   |
 |  and reliable web applications through thoughtful engineering.   |
 |                                                                  |
-|  [ View projects ]  Download CV                                  |
+|  [ View projects ]   (Download CV is added with the CV files)    |
 |                                                                  |
 |  +-----------------------------------+  Coverage                 |
 |  |   Cocktail Lab screenshot         |  89.42% of lines, measured|
@@ -194,7 +194,7 @@ All components have visible focus, hover and disabled states where applicable. C
 | `SiteHeader` / `Nav` | Landmark `nav` with `aria-label`; current page marked with `aria-current`; at small widths the links collapse into a native `details` disclosure with a text label, which works with a keyboard and without JavaScript                                                       |
 | `LanguageSwitch`     | A plain link to the equivalent page, with `hreflang` and `lang`, not a script                                                                                                                                                                                                |
 | `ThemeToggle`        | Button with `aria-pressed`. Implemented with a small inline script, not a hydrated React component, so a toggle does not pull the React runtime into every page. A second inline script in `<head>` sets the theme before first paint to avoid a flash; the choice is stored |
-| `Hero`               | Name in `--text-h1`, statement in `--text-lede`, two actions, one screenshot with its margin note                                                                                                                                                                            |
+| `Hero`               | Name in `--text-h1`, statement in `--text-lede`, one action (a second, Download CV, comes with the CV files), one screenshot with its margin note                                                                                                                            |
 | `MarginNote`         | Paragraph with a left rule. Three lines: status word (Verified, Target or Stated), the claim's source as a link, the date. No icons. Status is text, never color                                                                                                             |
 | `Figure`             | Screenshot in `--radius-media` on `--color-surface`, explicit width and height, meaningful `alt`, optional note                                                                                                                                                              |
 | `ProjectRow`         | Ruled row; one link on the title (the whole row becomes clickable through a stretched pseudo-element); hover underlines the title and offsets it, no elevation. Sizes: featured, standard, compact                                                                           |
@@ -205,6 +205,8 @@ All components have visible focus, hover and disabled states where applicable. C
 | `ExternalLink`       | Underlined, `rel="noopener noreferrer"`, accessible name includes the destination; opens in the same tab unless the owner decides otherwise                                                                                                                                  |
 | `Table`              | Real `<table>` with `<caption>` and header cells, used for the testing layers and stack tables                                                                                                                                                                               |
 | `Footer`             | Landmark `contentinfo`                                                                                                                                                                                                                                                       |
+
+Differences in the build: there is no separate `Figure`, `ExternalLink` or `Table` component. Screenshots are an Astro `Image` inside a `figure` (hero and case-study header), external links are plain anchors with `rel="noopener noreferrer"`, and no table has been needed yet. The case-study pages add `CaseStudySection`, `FeatureList` and `ProjectList`, and `Footer` is `SiteFooter`.
 
 Copy rules inside components: sentence case; one job per piece of text; the same action keeps the same name everywhere; the 404 and the JavaScript-off states say what happened and what to do next ("This page does not exist. Go to the home page.").
 
@@ -234,13 +236,16 @@ Risk and guard: changing glyph widths could cause layout shift or delay the larg
 
 ## 9. Assets needed
 
-| Asset                                                                    | Source                                                                                   | Status               |
-| ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- | -------------------- |
-| Screenshots of Cocktail Lab, Streamline, Weather Finder, Calorie Tracker | Live demos or local builds, captured at one consistent width, WebP or AVIF with fallback | Not yet captured     |
-| Favicon and social image                                                 | Generated from the name set in Archivo                                                   | To design in Phase 4 |
-| CV files in Spanish and English                                          | Owner (Spanish received; English pending)                                                | English missing      |
+Status on 2026-11-06.
 
-## 10. Design QA checklist (used in Phase 7)
+| Asset                                                                    | Source                                                            | Status                                                                              |
+| ------------------------------------------------------------------------ | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Screenshots of Cocktail Lab, Streamline, Weather Finder, Calorie Tracker | Landing page of each app, WebP, in `src/assets/screenshots/`      | Captured (landing pages only; no dark-mode or inner-page captures)                  |
+| Favicon                                                                  | `public/favicon.svg`, a drawn "D" that follows the system theme   | Done (Phase 7)                                                                      |
+| Social image                                                             | `public/og.png`, name and role in Archivo, generated by `pnpm og` | Done (Phase 7)                                                                      |
+| CV files in Spanish and English, without the phone number                | Owner                                                             | Pending: the Spanish CV was received, the English one is missing, both have a phone |
+
+## 10. Design QA checklist
 
 - Every text and UI color pair passes the contrast script in both themes.
 - Nothing relies on color alone, including status and links.
@@ -250,14 +255,18 @@ Risk and guard: changing glyph widths could cause layout shift or delay the larg
 - The hero motion is absent with reduced motion enabled.
 - Spanish strings fit the layout (they run longer than English).
 
-## 11. Mapping to code (Phase 3)
+Status on 2026-11-06: contrast, absence of horizontal scroll at 320, 375, 768, 1024 and 1440 px (`layout.spec.ts`), the hero motion under reduced motion (`motion.spec.ts`) and the margin note beside each metric are checked by tests. Not checked: Spanish string fit by eye, text zoom to 200 percent and the screen-reader pass.
 
-`src/styles/global.css` holds the tokens in `@theme` and the dark-theme overrides; `src/components/ui/` the primitives; `src/components/projects/` the rows and markers; `src/components/shared/` the margin note and figure. Pages, layouts and content live in Astro files; components are TSX files; a client directive is added only when interaction justifies hydration.
+## 11. Mapping to code
 
-## 12. Implementation notes (Phase 4, 2026-11-05)
+`src/styles/global.css` holds the tokens in `@theme` and the theme selectors; `src/components/ui/` the primitives (button, skip link, status marker); `src/components/navigation/` the header, language switch and theme toggle; `src/components/shared/` the margin note, project rows, stack list and case-study pieces; `src/components/sections/` the home sections and the case-study content. Pages, layouts and content live in Astro files; components are TSX files; a client directive is added only when interaction justifies hydration.
 
+## 12. Implementation notes
+
+- **Phase 4 (2026-11-05).**
 - **Browser support.** Color tokens use CSS `light-dark()`, which needs Chrome 123, Firefox 120 or Safari 17.5. Older browsers ignore the declaration; the site is not designed for them.
 - **Hero animation, measured.** Lab runs on the built site (Chromium, 5 runs each, mobile profile with 4x CPU throttling and slow 4G): CLS 0 on desktop and 0.0016 on mobile, identical with and without the animation; LCP unchanged within noise (about 60 ms desktop, about 630 ms mobile profile, localhost). Acceptance criterion AC-07 is met. Guards in place: the animation is disabled under `prefers-reduced-motion` and below `sm` (40rem), where both name lines always fit and wrapping cannot change, and the Archivo and Source Serif latin files are preloaded to avoid a font-swap shift.
 - **Small-screen menu.** The links appear twice in the markup (row on `md` and up, native `details` below), and only one is displayed at a time, so assistive technology never reads them twice. The panel is anchored to the right edge of the header.
 - **Theme toggle.** The button is `hidden` until the inline script runs, so without JavaScript the system preference decides and no dead control is shown.
 - **Project rows** are text-only in Phase 4; screenshots are used in the hero and will be used in the case study pages.
+- **Phase 7 (2026-11-06).** The favicon follows the system theme through a media query inside the SVG, and the social image is a single language-neutral card (name and role) on the light paper color.
