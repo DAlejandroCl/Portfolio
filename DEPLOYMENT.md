@@ -2,6 +2,10 @@
 
 The site is static: `pnpm build` writes `dist/`, and Vercel serves it.
 
+## Before the first deploy: merge into `main`
+
+The code lives in stacked phase branches and `main` holds only the README and the project brief. Vercel deploys the production branch, so deploying `main` now would publish no site. Open one pull request from the latest branch (`docs/audit-documentation` today; it contains every earlier branch and `main`), let CI run on it and merge it. This is also the first time the workflow in `.github/workflows/ci.yml` runs on GitHub.
+
 ## First deploy
 
 1. In Vercel, choose **Add New → Project** and import `DAlejandroCl/Portfolio`. The settings come from `vercel.json`.
