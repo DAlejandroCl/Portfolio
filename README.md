@@ -4,7 +4,7 @@ Bilingual (EN default, ES under `/es/`) engineering portfolio of a frontend soft
 
 Its idea is that every technical claim carries its source: each metric is shown with where it comes from and when it was checked, and the build fails if a metric has no source.
 
-**Status:** built and tested locally; not deployed yet. Done: the home page, the project list, four case studies and a 404 page in both languages, structured data, `robots.txt`, favicon and social image, and the Vercel configuration. Pending: choosing the domain and deploying (see [DEPLOYMENT.md](DEPLOYMENT.md)), the CV download (it needs CV files without the phone number) and the owner's review of the written copy. Acceptance status per requirement is in [PRODUCT_REQUIREMENTS.md](PRODUCT_REQUIREMENTS.md#13-acceptance-status).
+**Status:** built and tested locally; not deployed yet. Done: the home page, the project list, four case studies and a 404 page in both languages, structured data, `robots.txt`, favicon and social image, and the Vercel configuration. Pending: choosing the domain and deploying (see [DEPLOYMENT.md](DEPLOYMENT.md)), the CV download (it needs CV files without the phone number) and the owner's review of the written copy. Acceptance status per requirement is in [PRODUCT_REQUIREMENTS.md](PRODUCT_REQUIREMENTS.md#13-acceptance-status); the CI workflow has not run on GitHub yet.
 
 ## Principles
 
@@ -75,7 +75,7 @@ tests/          unit/ (Vitest) and e2e/ (Playwright)
 
 ## Branches
 
-The work was done in phase branches, each stacked on the previous one (`docs/phase-1-2-…`, `feat/phase-3-…` to `feat/phase-8-deploy`), and `main` holds the project brief and this file until they are merged. Commits follow Conventional Commits and history is never rewritten.
+The work was done in phase branches, each stacked on the previous one (`docs/phase-1-2-…`, `feat/phase-3-…` to `feat/phase-8-deploy`, then `docs/audit-documentation`, the latest). `main` holds the project brief and a short README until the latest branch is merged through a pull request (see [DEPLOYMENT.md](DEPLOYMENT.md)). Commits follow Conventional Commits, each file change is its own commit, and history is never rewritten.
 
 ## Known notes
 
