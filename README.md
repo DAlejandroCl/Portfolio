@@ -30,7 +30,9 @@ Node 22.23.4 or newer (see `.nvmrc`) and pnpm 10.
 | `pnpm check:contrast` | WCAG contrast ratios for every declared token pair |
 | `pnpm audit:deps`     | Fail on high or critical dependency advisories     |
 
-Set `SITE_URL` to the production origin before building for deployment; canonical URLs and the sitemap use it.
+Set `SITE_URL` to the production origin before building for deployment; canonical URLs, the sitemap, `robots.txt` and the social image URL use it.
+
+Run `pnpm og` to regenerate `public/og.png` after changing the name, role or palette.
 
 ## Structure
 
