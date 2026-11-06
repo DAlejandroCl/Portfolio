@@ -16,18 +16,19 @@ The work is organised in phases and each phase lives in its own branch. The bran
 | 6     | `feat/phase-6-i18n`                      | Full English and Spanish parity, language of parts                |
 | 7     | `feat/phase-7-seo-assets`                | Structured data, robots.txt, favicon, social image                |
 | 8     | `feat/phase-8-deploy`                    | Vercel configuration and deployment guide                         |
+| —     | `docs/audit-documentation`               | Documentation audit and acceptance status (the latest branch)     |
 
 To run the project, use the latest branch:
 
 ```bash
 git clone https://github.com/DAlejandroCl/Portfolio.git
 cd Portfolio
-git checkout feat/phase-8-deploy
+git checkout docs/audit-documentation
 pnpm install
 pnpm dev
 ```
 
-It needs Node 22.23.4 or newer and pnpm 10. The full README, with scripts and structure, is on that branch.
+It needs Node 22.23.4 or newer and pnpm 10. The full README, with scripts and structure, is on that branch, and `PRODUCT_REQUIREMENTS.md` there has the acceptance status of each requirement.
 
 ## What is in it
 
@@ -43,7 +44,7 @@ The site is built and tested locally and has not been deployed yet. Pending: cho
 ## Documents
 
 - [PROJECT_BRIEF.md](PROJECT_BRIEF.md): scope, verified claims and publishing rules.
-- Product requirements, design system and deployment guide are on the latest branch: [PRODUCT_REQUIREMENTS.md](https://github.com/DAlejandroCl/Portfolio/blob/feat/phase-8-deploy/PRODUCT_REQUIREMENTS.md), [DESIGN_SYSTEM.md](https://github.com/DAlejandroCl/Portfolio/blob/feat/phase-8-deploy/DESIGN_SYSTEM.md), [DEPLOYMENT.md](https://github.com/DAlejandroCl/Portfolio/blob/feat/phase-8-deploy/DEPLOYMENT.md).
+- Product requirements, design system and deployment guide are on the latest branch: [PRODUCT_REQUIREMENTS.md](https://github.com/DAlejandroCl/Portfolio/blob/docs/audit-documentation/PRODUCT_REQUIREMENTS.md), [DESIGN_SYSTEM.md](https://github.com/DAlejandroCl/Portfolio/blob/docs/audit-documentation/DESIGN_SYSTEM.md), [DEPLOYMENT.md](https://github.com/DAlejandroCl/Portfolio/blob/docs/audit-documentation/DEPLOYMENT.md).
 
 ## Links
 
