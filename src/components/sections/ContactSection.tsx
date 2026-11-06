@@ -4,13 +4,16 @@ import { Section } from '../shared/Section';
 
 interface ContactSectionProps {
   labels: Dictionary['contact'];
+  /** The CV file for the language of the page. */
+  cvHref: string;
 }
 
-export function ContactSection({ labels }: ContactSectionProps) {
+export function ContactSection({ labels, cvHref }: ContactSectionProps) {
   const links = [
     { label: labels.email, href: profile.links.email, external: false },
     { label: labels.linkedin, href: profile.links.linkedin, external: true },
     { label: labels.github, href: profile.links.github, external: true },
+    { label: labels.cv, href: cvHref, external: false },
   ];
 
   return (
