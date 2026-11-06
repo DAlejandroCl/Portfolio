@@ -1,6 +1,6 @@
 # PRODUCT_REQUIREMENTS — Engineering Portfolio
 
-Phase 1 deliverable. Status: draft for owner review. Inputs: `PROJECT_BRIEF.md` (verified facts and publishing rules) and the owner's master context document.
+Phase 1 deliverable, approved by the owner on 2026-11-03 and amended during implementation. Sections 1–11 are the original requirements; where the build differs, section 12 says what changed and section 13 gives the current acceptance status. Inputs: `PROJECT_BRIEF.md` (verified facts and publishing rules) and the owner's master context document.
 
 ## 1. Goal
 
@@ -44,13 +44,13 @@ Slugs are identical in both languages. The About content lives in the home page;
 ### 5.1 Home sections (in order)
 
 1. **Navigation:** name, Projects, About, Contact, language switch, theme switch. Skip link first in tab order.
-2. **Hero:** name, role, hero statement, two actions (View projects, Download CV), one real Cocktail Lab screenshot with a sourced margin note.
+2. **Hero:** name, role, hero statement, actions (View projects; Download CV once the CV files exist, see section 12), one real Cocktail Lab screenshot with a sourced margin note.
 3. **Featured projects:** Cocktail Lab (large), Streamline Inventory (medium, status label visible), Weather Finder and Calorie Tracker (compact). Cards are generated from the content collection, never hand-written per page.
 4. **Engineering focus:** the four strengths, each linking to the case study section that proves it.
 5. **Technical expertise:** React and TypeScript first with a short justification each; supporting technologies grouped below. No percentage bars or star ratings.
 6. **About:** education (Universidad Católica de Colombia, 2018–2024), independent projects since September 2022, Fundación de Levi (Feb–Aug 2022, institutional website gallery in HTML, CSS and JavaScript), certifications as listed in the CV with the in-progress course labeled, languages (Spanish native, English B2), engineering approach in one short paragraph.
 7. **Academic publication:** exact title, IEEE, 2025, two-sentence context, link to the original source. Framed as research and collaboration. No claim of security specialization.
-8. **Contact:** GitHub, LinkedIn, email link and CV download. The phone number is not published.
+8. **Contact:** GitHub, LinkedIn, email link and CV download (pending, see section 12). The phone number is not published.
 9. **Footer:** copyright, language switch, links to the repositories, the source repository of this site.
 
 ### 5.2 Project page sections (Cocktail Lab and Streamline)
@@ -65,13 +65,13 @@ Overview, stack, what it demonstrates, key decision, limitations (including "no 
 
 ### 5.4 Content model
 
-Astro Content Collections validated with Zod:
+Astro Content Collections validated with Zod (`src/content/schemas.ts` is the source of truth):
 
-- `projects`: `slug`, `lang`, `title`, `summary`, `status` (`production | completed | in-progress`; `completed` is used where a live deployment has not been verified), `featured`, `order`, `stack[]`, `links { repo, demo? }`, `sections` (per page type), `evidence[]`.
-- `evidence[]` item: `claim`, `value`, `source` (URL or commit reference), `verifiedAt` (date), `status` (`verified | target | stated`).
-- `publications`: `title`, `venue`, `year`, `url`, `context`, `lang`.
-- Typed data modules for profile, skills and experience; dictionaries for interface strings.
-- **Rule enforced by the build:** any metric rendered on the site must reference an `evidence` item with a source and date; a missing source fails the build.
+- `projects` (one Markdown file per language): `lang`, `title`, `kind` (`full | short`, decides which sections the page needs), `summary` (up to 280 characters), `metaDescription` (50–160 characters), `status` (`production | completed | in-progress`; `completed` is used where a live deployment has not been verified), `featured`, `order`, `stack[]`, `links { repo, demo? }`, `screenshot`, `screenshotAlt`, `features[]` (`name`, `description`, `status`: `implemented | in-progress | planned`), `metrics[]` (`label`, `value`, `evidenceId`) and `evidence[]`. The case study is the Markdown body.
+- `evidence[]` item: `id`, `claim`, `source { label, url }` (an https URL), `verifiedOn` (date) and `status` (`verified | target | stated`).
+- `publications`: `lang`, `title`, `titleLang`, `venue`, `year`, `context` and a single `evidence` item whose source is the original page.
+- Typed data modules for links and technology names (`src/data/profile.ts`); dictionaries for interface strings (`src/i18n/dictionaries/`).
+- **Rule enforced by the build:** any metric rendered on the site must reference an `evidence` item with a source and a date; a missing reference fails the build.
 
 ## 6. Functional requirements
 
@@ -79,7 +79,7 @@ Astro Content Collections validated with Zod:
 | ----- | --------------------------------------------------------------------------------------------------------------------- |
 | FR-01 | Language switch keeps the user on the equivalent page in the other language                                           |
 | FR-02 | Theme switch (light, dark) respects the system preference by default and persists the choice                          |
-| FR-03 | CV download works in both languages; links to the CV file that matches the page language                              |
+| FR-03 | CV download works in both languages; links to the CV file that matches the page language (pending: needs CV files)    |
 | FR-04 | Every metric shows its margin note (source, verification date); on small screens the note appears under the paragraph |
 | FR-05 | Project cards and pages are rendered from content collections                                                         |
 | FR-06 | All external links open with `rel="noopener noreferrer"` and have a clear accessible name                             |
@@ -113,7 +113,7 @@ Astro Content Collections validated with Zod:
 | AC-09 | Site works with JavaScript disabled for reading and navigation                             | Playwright with JS disabled                        |
 | AC-10 | Streamline page lists no tooling the repository does not contain                           | Manual review against `PROJECT_BRIEF.md` section 3 |
 | AC-11 | `astro check`, lint, unit tests, E2E and production build pass in CI                       | GitHub Actions                                     |
-| AC-12 | CV download works in both languages                                                        | E2E                                                |
+| AC-12 | CV download works in both languages (pending: needs CV files)                              | E2E                                                |
 
 ## 9. Testing scope
 
@@ -125,19 +125,41 @@ Blog or articles, contact form, analytics, CMS, comments, animated backgrounds, 
 
 ## 11. Open items that affect content
 
-1. English CV: both CVs are in Spanish. The English site needs an English CV; until it exists, the English site links the Spanish CV with a labeled note.
-2. Whether the owner publishes the email address as a link.
-3. Screenshots: real captures of the four apps (light and dark where applicable) are needed; they can be taken from the live demos once reachable.
-4. Resolution of the CV discrepancies listed in `PROJECT_BRIEF.md` before any contradicted claim is published.
+Status on 2026-11-06.
+
+1. **CV files.** Both CVs are in Spanish and contain the phone number, so they are not committed. The owner will provide phone-free versions in English and Spanish; the download is added then. Until the English CV exists, the English site would link the Spanish CV with a labeled note.
+2. **Email.** Resolved: it is published only as a `mailto:` link, never as plain text or in structured data.
+3. **Screenshots.** Resolved for the landing page of each of the four apps (`src/assets/screenshots/`). Dark-mode and inner-page captures were not made.
+4. **CV discrepancies** listed in `PROJECT_BRIEF.md`. The owner chose to leave them as they are for now, so the publishing rules in that document apply.
+5. **Live demos and the IEEE page** have not been opened and verified by the owner. Only the verified ones are linked.
 
 ## 12. Changes made during implementation
 
 - **Phase 4 (2026-11-05).** The project `status` gained `completed` (shown as "Completed") for Weather Finder and Calorie Tracker, whose live demos have not been opened and verified. `production` stays for Cocktail Lab, as stated in the CV.
-- The CV download (hero action, contact link, FR-03) is postponed until phone-free CV files are provided. Until then the hero has one action.
-- Project rows link to the repository until the case study pages exist (Phase 5). The "Engineering focus" items will link to their proof in the case studies at the same time.
-- Structured data (`Person`, `ScholarlyArticle`) is added in Phase 7, together with the Lighthouse pass.
-- **Phase 7 (2026-11-06).** Structured data is on the home pages only. The paper is linked as `contributor`, not `author`, because the author is a co-author, and `datePublished` holds only the year. The email and phone are not in the structured data. `robots.txt` is generated so its `Sitemap` line uses `SITE_URL`. The social image is one language-neutral card (name and role) generated by `pnpm og`. The no-JavaScript guard still allows two scripts; JSON-LD blocks are data and are not counted.
-- **Phase 5 (2026-11-05).** A case study is the body of the project file, split into sections with `## Title {#id}`. Each section can place evidence items in the margin with `<!-- evidence: id, id -->`, and the build fails if a required section is missing or cites evidence that does not exist. Full case studies (Cocktail Lab, Streamline Inventory) have eleven sections; short ones (Weather Finder, Calorie Tracker) have six.
+- The CV download (hero action, contact link, FR-03, AC-12) is postponed until phone-free CV files are provided. Until then the hero has one action.
+- **Phase 5 (2026-11-05).** A case study is the body of the project file, split into sections with `## Title {#id}`. Each section can place evidence items in the margin with `<!-- evidence: id, id -->`, and the build fails if a required section is missing or cites evidence that does not exist. Full case studies (Cocktail Lab, Streamline Inventory) have eleven sections; short ones (Weather Finder, Calorie Tracker) have six. Project rows link to the case study, and each "Engineering focus" item links to the section that proves it.
 - Streamline Inventory has no "Planned" features yet: the list contains only what exists or is in progress. Planned items need the owner's input and are not invented. Its page lists known gaps (default admin account, no migrations, non-strict CI) because they were found in the code.
 - Test counts are not quoted for any project, and Lighthouse figures are not published for projects that have not been measured.
 - Weather Finder and Calorie Tracker link no live demo, because none has been verified.
+- **Phase 6 (2026-11-06).** Text in another language than the page (the English course names and paper title on the Spanish page, the Spanish institution names on the English page) carries a `lang` attribute (WCAG 3.1.2); the publication schema requires `titleLang`. Numbers follow the language (`89.42 %` and `89,42 %`) and a test checks that they are the same figure. The sitemap has 12 URLs: the home, the project list and four case studies, in two languages.
+- **Phase 7 (2026-11-06).** Structured data is on the home pages only. The paper is linked as `contributor`, not `author`, because the author is a co-author, and `datePublished` holds only the year. The email and phone are not in the structured data. `robots.txt` is generated so its `Sitemap` line uses `SITE_URL`. The social image is one language-neutral card (name and role) generated by `pnpm og`. The no-JavaScript guard still allows two scripts; JSON-LD blocks are data and are not counted.
+- **Phase 8 (2026-11-06).** Vercel configuration and a deployment guide were added. The site is not deployed yet: the domain is not chosen and the code is not merged into `main`.
+
+## 13. Acceptance status
+
+Status on 2026-11-06. "Met" means a test or measurement exists and passes locally.
+
+| ID    | Status  | Evidence and gaps                                                                                                                                                                                                                                 |
+| ----- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AC-01 | Met     | `tests/e2e/crawl.spec.ts` loads every URL of the sitemap (12) and expects 200.                                                                                                                                                                    |
+| AC-02 | Met     | Schema refinement and `resolveMetrics`, with negative tests in `tests/unit/schemas.test.ts` and `evidence.test.ts`; the build throws.                                                                                                             |
+| AC-03 | Met     | `accessibility.spec.ts` runs axe on every route in both languages, both themes, plus the open menu. Automated checks do not prove conformance.                                                                                                    |
+| AC-04 | Partial | `keyboard.spec.ts` covers the skip link, tab order and focus ring. The CV step does not exist yet, and the manual keyboard and screen-reader pass was not done.                                                                                   |
+| AC-05 | Met     | `pnpm check:contrast` runs in CI and in `tests/unit/contrast.test.ts`.                                                                                                                                                                            |
+| AC-06 | Partial | Lighthouse 12, mobile profile, local build, 2026-11-06: home EN performance 98 and ES 99; accessibility, best practices and SEO 100 in both. The Cocktail Lab page was not measured, and no report is stored in the repository.                   |
+| AC-07 | Partial | Lab measurement of the hero (CLS 0 desktop, 0.0016 mobile, LCP unchanged) is recorded in `DESIGN_SYSTEM.md` section 12. No field data and no other pages.                                                                                         |
+| AC-08 | Met     | `crawl.spec.ts` and `seo-i18n.spec.ts` check `lang`, canonical, reciprocal `hreflang` and `x-default` on every page.                                                                                                                              |
+| AC-09 | Met     | `no-javascript.spec.ts` reads and navigates every page with JavaScript off and guards against external scripts.                                                                                                                                   |
+| AC-10 | Met     | The Streamline case study mentions no pnpm, Turborepo, monorepo tooling or Docker in either language (checked by search on 2026-11-06).                                                                                                           |
+| AC-11 | Partial | Type check, lint, Prettier, unit, contrast and E2E pass locally and the build succeeds. The workflow in `.github/workflows/ci.yml` has not run on GitHub: it triggers on pull requests and pushes to `main`, and no pull request has been opened. |
+| AC-12 | Pending | Needs the phone-free CV files.                                                                                                                                                                                                                    |
