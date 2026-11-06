@@ -35,6 +35,7 @@ export const en = {
     statement:
       'Building maintainable, accessible and reliable web applications through thoughtful engineering.',
     viewProjects: 'View projects',
+    downloadCv: 'Download CV (PDF)',
   },
   note: {
     verified: 'Verified',
@@ -189,6 +190,7 @@ export const en = {
     email: 'Email',
     linkedin: 'LinkedIn',
     github: 'GitHub',
+    cv: 'CV (PDF)',
   },
   footer: {
     label: 'Site',
