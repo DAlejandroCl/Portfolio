@@ -10,6 +10,7 @@ const pages = [
     switchLabel: 'Español',
     theme: 'Dark theme',
     action: 'View projects',
+    cv: 'Download CV (PDF)',
   },
   {
     path: '/es/',
@@ -20,6 +21,7 @@ const pages = [
     switchLabel: 'English',
     theme: 'Tema oscuro',
     action: 'Ver proyectos',
+    cv: 'Descargar CV (PDF)',
   },
 ] as const;
 
@@ -44,7 +46,7 @@ async function focusedElement(page: Page): Promise<FocusedElement | null> {
   });
 }
 
-for (const { path, skipLabel, name, links, menu, switchLabel, theme, action } of pages) {
+for (const { path, skipLabel, name, links, menu, switchLabel, theme, action, cv } of pages) {
   test.describe(path, () => {
     test('the skip link is the first tab stop and moves focus to the main content', async ({
       page,
@@ -67,8 +69,8 @@ for (const { path, skipLabel, name, links, menu, switchLabel, theme, action } of
       await page.goto(path);
 
       const expected = isMobile
-        ? [skipLabel, name, menu, switchLabel, theme, action]
-        : [skipLabel, name, ...links, switchLabel, theme, action];
+        ? [skipLabel, name, menu, switchLabel, theme, action, cv]
+        : [skipLabel, name, ...links, switchLabel, theme, action, cv];
 
       const stops: FocusedElement[] = [];
       while (stops.length < expected.length) {
