@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import { getCollection, getEntry } from 'astro:content';
 import { resolveMetrics } from '../../content/evidence';
 import type { Locale } from '../../i18n/config';
+import { profile } from '../../data/profile';
 import { personJsonLd, scholarlyArticleJsonLd } from '../../seo/structuredData';
 import { getDictionary, localizedPath } from '../../i18n/utils';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -75,6 +76,9 @@ const jsonLd = [
   >
     <Fragment slot="actions">
       <Button href={`${localizedPath(locale, '/')}#projects`}>{t.hero.viewProjects}</Button>
+      <Button href={profile.cv[locale]} variant="secondary">
+        {t.hero.downloadCv}
+      </Button>
     </Fragment>
     <figure class="mt-12 grid gap-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,4fr)] lg:items-end">
       <div class="overflow-hidden rounded-media bg-surface">
@@ -108,5 +112,5 @@ const jsonLd = [
     locale={locale}
     labels={{ publication: t.publication, note: t.note }}
   />
-  <ContactSection labels={t.contact} />
+  <ContactSection labels={t.contact} cvHref={profile.cv[locale]} />
 </BaseLayout>
