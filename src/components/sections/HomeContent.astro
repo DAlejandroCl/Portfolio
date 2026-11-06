@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import { getCollection, getEntry } from 'astro:content';
 import { resolveMetrics } from '../../content/evidence';
 import type { Locale } from '../../i18n/config';
+import { personJsonLd, scholarlyArticleJsonLd } from '../../seo/structuredData';
 import { getDictionary, localizedPath } from '../../i18n/utils';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { MarginNote } from '../shared/MarginNote';
@@ -48,9 +49,24 @@ const publication = await getEntry('publications', `${locale}/ieee-2025`);
 if (!publication) {
   throw new Error(`Missing publication content for locale "${locale}".`);
 }
+
+const site = Astro.site ?? new URL(Astro.url.origin);
+const jsonLd = [
+  personJsonLd(locale, site),
+  scholarlyArticleJsonLd(
+    {
+      title: publication.data.title,
+      titleLang: publication.data.titleLang,
+      venue: publication.data.venue,
+      year: publication.data.year,
+      url: publication.data.evidence.source.url,
+    },
+    site,
+  ),
+];
 ---
 
-<BaseLayout title={t.meta.homeTitle} description={t.meta.homeDescription}>
+<BaseLayout title={t.meta.homeTitle} description={t.meta.homeDescription} jsonLd={jsonLd}>
   <Hero
     firstNames={t.site.firstNames}
     lastNames={t.site.lastNames}
