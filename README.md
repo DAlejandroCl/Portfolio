@@ -39,7 +39,7 @@ It needs Node 22.23.4 or newer and pnpm 10. The full README, with scripts and st
 
 ## Status
 
-The site is built and tested locally and has not been deployed yet. Pending: choosing the domain and deploying (Phase 8), the CV download (it needs CV files without the phone number), and the owner's review of the written copy.
+The site is live at https://devacl.vercel.app (free Vercel plan), deployed from the latest branch while `main` still holds only the brief and this file. Pending: merging the latest branch into `main`, and the owner's review of the written copy.
 
 ## Documents
 
