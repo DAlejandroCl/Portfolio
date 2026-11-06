@@ -18,6 +18,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "astro build && playwright test",
+    "og": "node scripts/make-og-image.ts",
     "check:contrast": "node scripts/check-contrast.ts",
     "audit:deps": "pnpm audit --audit-level=high"
   },
