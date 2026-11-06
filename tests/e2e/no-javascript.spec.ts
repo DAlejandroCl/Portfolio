@@ -39,6 +39,7 @@ test.describe('with JavaScript disabled', () => {
 
 // Guards the "static first" decision. The only scripts allowed are the two
 // small inline ones in the layout (theme before first paint, theme toggle).
+// JSON-LD blocks are data, not code, so they are not counted.
 // A script with a `src`, or a module preload, means a component is hydrating:
 // make that a deliberate change, together with the reason.
 test('pages only carry the two inline scripts and load no JavaScript files', async ({
@@ -46,7 +47,9 @@ test('pages only carry the two inline scripts and load no JavaScript files', asy
 }) => {
   for (const path of paths) {
     const html = await (await request.get(path)).text();
-    const scripts = [...html.matchAll(/<script\b[^>]*>/gi)].map((match) => match[0]);
+    const scripts = [...html.matchAll(/<script\b[^>]*>/gi)]
+      .map((match) => match[0])
+      .filter((tag) => !/type=["']application\/ld\+json/i.test(tag));
     expect(scripts, `${path} has an unexpected number of scripts`).toHaveLength(2);
     for (const tag of scripts) {
       expect(tag, `${path} loads an external script`).not.toMatch(/\ssrc=/i);
