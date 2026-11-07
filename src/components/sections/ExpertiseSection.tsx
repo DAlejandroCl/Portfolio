@@ -12,15 +12,15 @@ const groupOrder = Object.keys(profile.supportingSkills) as SupportingSkillGroup
 export function ExpertiseSection({ labels }: ExpertiseSectionProps) {
   return (
     <Section id="expertise" title={labels.title}>
-      <ul className="grid gap-x-12 gap-y-8 md:grid-cols-2">
+      <ul className="grid gap-4 md:grid-cols-2">
         {labels.primary.map((skill) => (
-          <li key={skill.name}>
+          <li key={skill.name} className="rounded-media bg-surface p-6">
             <h3 className="text-h3">{skill.name}</h3>
             <p className="mt-2 max-w-[60ch]">{skill.text}</p>
           </li>
         ))}
       </ul>
-      <h3 className="mt-14 mb-6 text-lede font-semibold text-ink-muted">
+      <h3 className="mt-12 mb-6 text-lede font-semibold text-ink-muted">
         {labels.supportingTitle}
       </h3>
       <dl className="grid gap-x-12 gap-y-4 text-note md:grid-cols-[minmax(0,14rem)_1fr]">
