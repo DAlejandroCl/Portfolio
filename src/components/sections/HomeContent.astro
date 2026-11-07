@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import { responsiveImage } from '../../lib/responsiveImage';
 import { getCollection, getEntry } from 'astro:content';
 import { resolveMetrics } from '../../content/evidence';
 import type { Locale } from '../../i18n/config';
@@ -14,6 +15,8 @@ import { ContactSection } from './ContactSection';
 import { ExpertiseSection } from './ExpertiseSection';
 import { FocusSection } from './FocusSection';
 import { Hero } from './Hero';
+import { CertificationsSection } from './CertificationsSection';
+import { ExperienceSection } from './ExperienceSection';
 import { ProjectsSection, type ProjectItem } from './ProjectsSection';
 import { PublicationSection } from './PublicationSection';
 
@@ -36,15 +39,21 @@ if (!coverage) {
   throw new Error('The hero expects the Cocktail Lab coverage metric.');
 }
 
-const projects: ProjectItem[] = entries.map((entry) => ({
-  slug: entry.id.split('/')[1] ?? entry.id,
-  title: entry.data.title,
-  summary: entry.data.summary,
-  status: entry.data.status,
-  stack: entry.data.stack,
-  repo: entry.data.links.repo,
-  demo: entry.data.links.demo,
-}));
+const projects: ProjectItem[] = await Promise.all(
+  entries.map(async (entry) => ({
+    slug: entry.id.split('/')[1] ?? entry.id,
+    title: entry.data.title,
+    summary: entry.data.summary,
+    status: entry.data.status,
+    stack: entry.data.stack,
+    repo: entry.data.links.repo,
+    demo: entry.data.links.demo,
+    image: {
+      ...(await responsiveImage(entry.data.screenshot, [480, 640, 960, 1280])),
+      alt: entry.data.screenshotAlt,
+    },
+  })),
+);
 
 const publication = await getEntry('publications', `${locale}/ieee-2025`);
 if (!publication) {
@@ -73,44 +82,56 @@ const jsonLd = [
     lastNames={t.site.lastNames}
     jobTitle={t.site.role}
     statement={t.hero.statement}
+    stack={{ label: t.hero.stackLabel, items: profile.heroStack }}
   >
     <Fragment slot="actions">
-      <Button href={`${localizedPath(locale, '/')}#projects`}>{t.hero.viewProjects}</Button>
-      <Button href={profile.cv[locale]} variant="secondary">
+      <Button href={profile.links.email} variant="field">
+        {t.hero.contact}
+      </Button>
+      <Button href={`${localizedPath(locale, '/')}#projects`} variant="field-outline">
+        {t.hero.viewProjects}
+      </Button>
+      <Button href={profile.cv[locale]} variant="field-outline">
         {t.hero.downloadCv}
       </Button>
     </Fragment>
-    <figure class="mt-12 grid gap-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,4fr)] lg:items-end">
-      <div class="overflow-hidden rounded-media bg-surface">
+    <figure class="relative">
+      <div class="overflow-hidden rounded-media bg-surface ring-1 ring-white/30 lg:-mr-12 lg:rounded-r-none">
         <Image
           src={hero.data.screenshot}
           alt={hero.data.screenshotAlt}
-          widths={[640, 960, 1280, 1600]}
-          sizes="(min-width: 64rem) 56rem, 100vw"
+          widths={[480, 640, 960, 1280]}
+          sizes="(min-width: 64rem) 32rem, 100vw"
           loading="eager"
           fetchpriority="high"
+          class="aspect-[5/4] w-full object-cover"
         />
       </div>
-      <figcaption class="space-y-3">
-        <p class="font-display text-h3">
-          {coverage.label}: {coverage.value}
-        </p>
-        <MarginNote evidence={coverage.evidence} locale={locale} labels={t.note} />
+      <figcaption class="mt-4 space-y-3 lg:absolute lg:-bottom-6 lg:-left-10 lg:mt-0 lg:max-w-xs">
+        <div class="mark rounded-media bg-mark px-4 py-3 text-on-mark">
+          <p class="font-display text-h3">
+            {coverage.label}: {coverage.value}
+          </p>
+          <MarginNote evidence={coverage.evidence} locale={locale} labels={t.note} variant="bare" />
+        </div>
       </figcaption>
     </figure>
   </Hero>
+  <AboutSection labels={t.about}>
+    <FocusSection labels={t.focus} locale={locale} />
+  </AboutSection>
   <ProjectsSection
     projects={projects}
     locale={locale}
     labels={{ projects: t.projects, caseStudy: t.caseStudy, status: t.status }}
   />
-  <FocusSection labels={t.focus} locale={locale} />
-  <ExpertiseSection labels={t.expertise} />
-  <AboutSection labels={t.about} locale={locale} />
+  <ExperienceSection labels={t.experience} locale={locale} />
   <PublicationSection
     publication={publication.data}
     locale={locale}
     labels={{ publication: t.publication, note: t.note }}
   />
+  <CertificationsSection labels={t.certifications} locale={locale} />
+  <ExpertiseSection labels={t.expertise} />
   <ContactSection labels={t.contact} cvHref={profile.cv[locale]} />
 </BaseLayout>
