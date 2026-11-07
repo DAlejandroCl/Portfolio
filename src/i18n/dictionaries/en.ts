@@ -26,6 +26,7 @@ export const en = {
     menu: 'Menu',
     projects: 'Projects',
     about: 'About',
+    experience: 'Experience',
     contact: 'Contact',
   },
   theme: {
@@ -36,6 +37,8 @@ export const en = {
       'Building maintainable, accessible and reliable web applications through thoughtful engineering.',
     viewProjects: 'View projects',
     downloadCv: 'Download CV (PDF)',
+    contact: 'Contact me',
+    stackLabel: 'Works with',
   },
   note: {
     verified: 'Verified',
@@ -127,15 +130,17 @@ export const en = {
   },
   about: {
     title: 'About',
-    educationTitle: 'Education',
-    education: {
-      degree: 'Systems and Computer Engineering',
-      school: 'Universidad Católica de Colombia',
-      schoolLang: 'es',
-      years: '2018–2024',
-    },
-    experienceTitle: 'Experience',
-    experience: [
+    summary:
+      'I am a Systems and Computer Engineer specializing in frontend development with React and TypeScript. I design maintainable, scalable, quality-driven software, applying sound engineering practices to build reliable, user-centered products. I explain technical decisions clearly and work actively with development teams, both in independent projects and in institutional team work.',
+    languagesTitle: 'Languages',
+    languages: ['Spanish: native', 'English: B2'],
+    approachTitle: 'How I work',
+    approach:
+      'I choose the simplest tool that meets the requirement, test the behavior people depend on, and write down the reason for each decision.',
+  },
+  experience: {
+    title: 'Experience',
+    items: [
       {
         name: 'Independent software engineering projects',
         nameLang: 'en',
@@ -149,9 +154,18 @@ export const en = {
         text: 'Web developer in a team project: built the gallery section of the institutional website with HTML, CSS and JavaScript.',
       },
     ],
-    certificationsTitle: 'Certifications',
+    educationTitle: 'Education',
+    education: {
+      degree: 'Systems and Computer Engineering',
+      school: 'Universidad Católica de Colombia',
+      schoolLang: 'es',
+      years: '2018–2024',
+    },
+  },
+  certifications: {
+    title: 'Certifications',
     inProgress: 'In progress',
-    certifications: [
+    items: [
       {
         name: 'React & Full-Stack Development (MERN/PERN)',
         nameLang: 'en',
@@ -174,11 +188,6 @@ export const en = {
         inProgress: false,
       },
     ],
-    languagesTitle: 'Languages',
-    languages: ['Spanish: native', 'English: B2'],
-    approachTitle: 'How I work',
-    approach:
-      'I choose the simplest tool that meets the requirement, test the behavior people depend on, and write down the reason for each decision.',
   },
   publication: {
     title: 'Academic publication',
