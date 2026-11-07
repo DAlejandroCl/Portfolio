@@ -32,7 +32,7 @@ export function PublicationSection({ publication, locale, labels }: PublicationS
           </p>
           <p className="mt-4 max-w-[68ch]">{publication.context}</p>
         </div>
-        <div className="lg:col-span-4 lg:col-start-9">
+        <div className="lg:col-span-5">
           <MarginNote evidence={publication.evidence} locale={locale} labels={labels.note} />
         </div>
       </div>
