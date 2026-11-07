@@ -13,7 +13,7 @@ interface ProjectsSectionProps {
 
 export function ProjectsSection({ projects, locale, labels }: ProjectsSectionProps) {
   return (
-    <Section id="projects" title={labels.projects.title}>
+    <Section id="projects" title={labels.projects.title} wide>
       <ProjectList projects={projects} locale={locale} labels={labels} />
     </Section>
   );
