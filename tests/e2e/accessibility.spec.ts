@@ -38,7 +38,7 @@ for (const colorScheme of schemes) {
 
 test.describe('theme override', () => {
   // Measured background colors of the paper token in each theme.
-  const paper = { light: 'rgb(243, 244, 241)', dark: 'rgb(15, 20, 32)' };
+  const paper = { light: 'rgb(247, 248, 252)', dark: 'rgb(9, 13, 28)' };
 
   test.use({ colorScheme: 'light' });
 
