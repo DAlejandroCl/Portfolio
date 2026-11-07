@@ -205,11 +205,13 @@ describe('SiteHeader', () => {
     );
     const hrefs = [...container.querySelectorAll('nav a')].map((a) => a.getAttribute('href'));
     expect(hrefs).toEqual([
-      '/es/#projects',
       '/es/#about',
+      '/es/#projects',
+      '/es/#experience',
       '/es/#contact',
-      '/es/#projects',
       '/es/#about',
+      '/es/#projects',
+      '/es/#experience',
       '/es/#contact',
     ]);
     expect(screen.getByRole('navigation', { name: 'Principal' })).toBeInTheDocument();
