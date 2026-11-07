@@ -3,7 +3,7 @@ import type { Locale } from '../../i18n/config';
 import type { Dictionary } from '../../i18n/dictionaries/en';
 import { localizedPath } from '../../i18n/utils';
 import type { ProjectStatus } from '../ui/StatusMarker';
-import { ProjectRow, type ProjectRowSize } from './ProjectRow';
+import { ProjectRow, type ProjectImage, type ProjectRowSize } from './ProjectRow';
 
 export interface ProjectItem {
   /** The bare slug, the same in every language. */
@@ -14,6 +14,7 @@ export interface ProjectItem {
   stack: readonly string[];
   repo: string;
   demo?: string | undefined;
+  image?: ProjectImage | undefined;
 }
 
 interface ProjectListProps {
@@ -32,7 +33,7 @@ function sizeFor(index: number): ProjectRowSize {
 /** Each row opens its case study; the repository and the demo sit beside it. */
 export function ProjectList({ projects, locale, labels }: ProjectListProps) {
   return (
-    <div className="border-b border-line">
+    <div className="grid gap-6 lg:grid-cols-6">
       {projects.map((project, index) => (
         <ProjectRow
           key={project.slug}
@@ -48,6 +49,7 @@ export function ProjectList({ projects, locale, labels }: ProjectListProps) {
             ...(project.demo ? [{ label: labels.caseStudy.liveDemo, href: project.demo }] : []),
           ]}
           size={sizeFor(index)}
+          {...(project.image ? { image: project.image } : {})}
         />
       ))}
     </div>
