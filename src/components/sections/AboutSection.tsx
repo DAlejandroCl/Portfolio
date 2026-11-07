@@ -1,29 +1,22 @@
-import type { Locale } from '../../i18n/config';
+import type { ReactNode } from 'react';
 import type { Dictionary } from '../../i18n/dictionaries/en';
 import { Section } from '../shared/Section';
 
 interface AboutSectionProps {
   labels: Dictionary['about'];
-  locale: Locale;
+  /** The engineering focus, shown under the summary. */
+  children?: ReactNode;
 }
 
-/** Marks a phrase written in another language than the page (WCAG 3.1.2). */
-const langOf = (written: string, page: Locale): string | undefined =>
-  written === page ? undefined : written;
-
-export function AboutSection({ labels, locale }: AboutSectionProps) {
+/** The short version of the profile: who I am, how I work, which languages. */
+export function AboutSection({ labels, children }: AboutSectionProps) {
   return (
     <Section id="about" title={labels.title}>
-      <div className="grid gap-x-12 gap-y-10 md:grid-cols-2">
+      <p className="max-w-[60ch] font-display text-lede font-medium">{labels.summary}</p>
+      <div className="mt-10 grid gap-x-12 gap-y-8 md:grid-cols-2">
         <div>
-          <h3 className="text-h3">{labels.educationTitle}</h3>
-          <p className="mt-2 font-semibold">{labels.education.degree}</p>
-          <p>
-            <span lang={langOf(labels.education.schoolLang, locale)}>
-              {labels.education.school}
-            </span>
-            , {labels.education.years}
-          </p>
+          <h3 className="text-h3">{labels.approachTitle}</h3>
+          <p className="mt-2 max-w-[60ch]">{labels.approach}</p>
         </div>
         <div>
           <h3 className="text-h3">{labels.languagesTitle}</h3>
@@ -33,41 +26,8 @@ export function AboutSection({ labels, locale }: AboutSectionProps) {
             ))}
           </ul>
         </div>
-        <div>
-          <h3 className="text-h3">{labels.experienceTitle}</h3>
-          <ul className="mt-2 space-y-4">
-            {labels.experience.map((item) => (
-              <li key={item.name}>
-                <p className="font-semibold" lang={langOf(item.nameLang, locale)}>
-                  {item.name}
-                </p>
-                <p className="text-note text-ink-muted">{item.period}</p>
-                <p className="mt-1">{item.text}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h3 className="text-h3">{labels.certificationsTitle}</h3>
-          <ul className="mt-2 space-y-3">
-            {labels.certifications.map((item) => (
-              <li key={item.name}>
-                <p className="font-semibold" lang={langOf(item.nameLang, locale)}>
-                  {item.name}
-                </p>
-                <p className="text-note text-ink-muted">
-                  {item.issuer}, {item.year}
-                  {item.inProgress ? ` (${labels.inProgress})` : ''}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
-      <div className="mt-12 max-w-[68ch]">
-        <h3 className="text-h3">{labels.approachTitle}</h3>
-        <p className="mt-2">{labels.approach}</p>
-      </div>
+      {children}
     </Section>
   );
 }
