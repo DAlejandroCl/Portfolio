@@ -27,7 +27,7 @@ export function personJsonLd(locale: Locale, site: URL): JsonLd {
     jobTitle: t.site.role,
     url: new URL(locale === 'en' ? '/' : `/${locale}/`, site).href,
     sameAs: [profile.links.github, profile.links.linkedin],
-    alumniOf: { '@type': 'CollegeOrUniversity', name: t.about.education.school },
+    alumniOf: { '@type': 'CollegeOrUniversity', name: t.experience.education.school },
     knowsLanguage: ['es', 'en'],
     knowsAbout: [...profile.primarySkills],
   };
