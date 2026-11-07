@@ -27,77 +27,66 @@ Reasons this fits the brief:
 
 ## 2. Color tokens
 
-Neutral, cool-leaning palette plus one accent. The accent is used **only** for interactive elements and the keyboard focus ring, so seeing it always means "you can act here". Status is never conveyed by color (shape and text carry it).
+Cool, blue-leaning neutrals plus one cobalt. Cobalt appears in three roles, and each role has its own token so the meaning stays readable:
 
-| Token                  | Light     | Dark      | Role                                       |
-| ---------------------- | --------- | --------- | ------------------------------------------ |
-| `--color-paper`        | `#F3F4F1` | `#0F1420` | Page background                            |
-| `--color-surface`      | `#E9EBE6` | `#161C2B` | Sunken areas (screenshot frames, code)     |
-| `--color-ink`          | `#1B2233` | `#E8EAF0` | Primary text                               |
-| `--color-ink-muted`    | `#4B5363` | `#A6ADBD` | Secondary text and margin notes            |
-| `--color-line`         | `#D6D9DF` | `#2A3245` | Decorative rules between sections and rows |
-| `--color-line-strong`  | `#7B8393` | `#6C7589` | Borders of controls                        |
-| `--color-signal`       | `#3A33D1` | `#A5A0FF` | Links, buttons, focus ring                 |
-| `--color-signal-hover` | `#2B25B0` | `#C2BEFF` | Hover state of signal                      |
-| `--color-on-signal`    | `#FFFFFF` | `#0F1420` | Text on a signal-filled button             |
+- **`signal`**: interactive elements (links, buttons, toggles) and the keyboard focus ring. Seeing it means "you can act here".
+- **`field`**: large panels filled with cobalt (the hero and the closing contact panel). Text on a field uses `on-field`; the focus ring on a field switches to `mark`.
+- **`mark`**: a yellow highlighter used **only** for evidence chips ("this claim has a source"), including the coverage caption on the hero image. It never means anything else.
 
-Rationale: a slightly green-grey light paper avoids the cream cliché and sits well next to the orange and blue of the Cocktail Lab screenshots, which carry the color on the page. Ink is a deep blue-slate, not pure black, to reduce harshness against the paper. The accent is an ultramarine violet that is distinct from the orange and blue of the featured apps.
+Status is never conveyed by color (shape and text carry it).
 
-### Contrast, measured 2026-11-03 with a script (WCAG relative luminance formula)
+| Token                    | Light     | Dark      | Role                                          |
+| ------------------------ | --------- | --------- | --------------------------------------------- |
+| `--color-paper`          | `#F7F8FC` | `#090D1C` | Page background                               |
+| `--color-surface`        | `#EBEEF8` | `#111733` | Cards and sunken areas                        |
+| `--color-ink`            | `#0D1230` | `#ECEEFA` | Primary text                                  |
+| `--color-ink-muted`      | `#4A5272` | `#A8B0D0` | Secondary text and notes                      |
+| `--color-line`           | `#D9DDEC` | `#242B4D` | Decorative rules and panel borders            |
+| `--color-line-strong`    | `#6F7899` | `#6A7396` | Borders of controls                           |
+| `--color-signal`         | `#2A35E6` | `#98A0FF` | Links, buttons, focus ring                    |
+| `--color-signal-hover`   | `#1E27B8` | `#BCC1FF` | Hover state of signal                         |
+| `--color-on-signal`      | `#FFFFFF` | `#090D1C` | Text on a signal-filled button                |
+| `--color-field`          | `#2A35E6` | `#161D58` | Cobalt panels (hero, contact)                 |
+| `--color-on-field`       | `#FFFFFF` | `#FFFFFF` | Text on a field                               |
+| `--color-on-field-muted` | `#DCDFFF` | `#C9CEFA` | Secondary text on a field                     |
+| `--color-mark`           | `#FFE27A` | `#FFE27A` | Evidence chip background, focus ring on field |
+| `--color-on-mark`        | `#0D1230` | `#0D1230` | Text on the evidence chip                     |
 
-| Pair                                   | Minimum | Light | Dark  |
-| -------------------------------------- | ------- | ----- | ----- |
-| ink on paper                           | 4.5     | 14.38 | 15.30 |
-| ink on surface                         | 4.5     | 13.22 | 14.14 |
-| ink-muted on paper                     | 4.5     | 7.00  | 8.18  |
-| ink-muted on surface                   | 4.5     | 6.44  | 7.56  |
-| signal on paper (links)                | 4.5     | 7.39  | 7.95  |
-| signal on surface                      | 4.5     | 6.79  | 7.35  |
-| signal-hover on paper                  | 4.5     | 9.54  | 10.61 |
-| on-signal on signal (button label)     | 4.5     | 8.16  | 7.95  |
-| line-strong on paper (control borders) | 3.0     | 3.45  | 3.98  |
-| signal on paper (focus ring)           | 3.0     | 7.39  | 7.95  |
+Rationale: the earlier grey-green and violet palette read as dated. The new one keeps one hue family (cobalt) so the page feels like one object, makes the hero and the closing contact block the two loud moments, and spends the yellow only where the page's main promise (every number has a source) is visible.
 
-All pairs pass. `--color-line` is decorative (it separates content and does not identify a control), so it is exempt from the 3:1 rule. The script is `scripts/check-contrast.ts` (`pnpm check:contrast`). It runs in CI and in a unit test (acceptance criterion AC-05), so a token change that fails a pair breaks the build.
+### Contrast, measured 2026-11-06 with `pnpm check:contrast` (WCAG relative luminance formula)
 
-## 3. Typography
+The script parses every `light-dark()` token and fails the build if a listed pair drops below its minimum. 36 pairs pass.
 
-Two clearly different families, both open-licensed (SIL Open Font License; confirm when installing), self-hosted to avoid third-party requests.
-
-| Role                  | Family                                    | Use                                                            |
-| --------------------- | ----------------------------------------- | -------------------------------------------------------------- |
-| Display and interface | Archivo (variable: weight and width axes) | Name, headings, navigation, buttons, numbers (tabular figures) |
-| Reading               | Source Serif 4 (variable)                 | Body text, case-study prose                                    |
-
-Rationale: Archivo's width axis gives the headline personality without decoration and powers the single motion moment (section 7). Source Serif 4 is a text serif designed for long reading at screen sizes. Serif body gets a larger line height than a sans would.
-
-| Token            | Value                                                                             | Notes                                |
-| ---------------- | --------------------------------------------------------------------------------- | ------------------------------------ |
-| `--font-display` | `"Archivo Variable", system-ui, sans-serif`                                       |                                      |
-| `--font-text`    | `"Source Serif 4 Variable", Georgia, serif`                                       |                                      |
-| `--text-note`    | `0.875rem` / 1.5                                                                  | Margin notes, captions               |
-| `--text-body`    | `1.125rem` / 1.65                                                                 | Body, 18 px at the default root size |
-| `--text-lede`    | `1.375rem` / 1.5                                                                  | Introductory paragraphs              |
-| `--text-h3`      | `1.5rem` / 1.3, weight 650                                                        |                                      |
-| `--text-h2`      | `clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem)` / 1.15, weight 650                       |                                      |
-| `--text-h1`      | `clamp(2.75rem, 1.5rem + 5vw, 5.5rem)` / 1.05, weight 700, letter-spacing -0.02em | Hero name only                       |
-| Measure          | `max-width: 68ch` for prose                                                       | Under 80 characters                  |
-
-Rules: sentence case everywhere, no uppercase transforms, no tracked-out labels. Interface labels use Archivo semibold at `0.9375rem`. Monospace appears only inside real code. Fonts are subset to the Latin ranges that cover English and Spanish (including á, é, í, ó, ú, ñ, ¿, ¡), loaded with `font-display: swap`, and the display font used above the fold is preloaded.
-
-Resolved in Phase 3: the chosen package (`@fontsource-variable/archivo`) exposes the width axis, so the hero motion is kept.
+| Pair                                    | Minimum | Light | Dark  |
+| --------------------------------------- | ------- | ----- | ----- |
+| ink on paper                            | 4.5     | 17.26 | 16.74 |
+| ink on surface                          | 4.5     | 15.81 | 15.22 |
+| ink-muted on paper                      | 4.5     | 7.22  | 9.01  |
+| ink-muted on surface                    | 4.5     | 6.61  | 8.19  |
+| signal on paper (links)                 | 4.5     | 7.19  | 8.11  |
+| signal on surface                       | 4.5     | 6.59  | 7.38  |
+| signal-hover on paper                   | 4.5     | 9.71  | 11.24 |
+| on-signal on signal (button label)      | 4.5     | 7.64  | 8.11  |
+| on-field on field                       | 4.5     | 7.64  | 15.55 |
+| on-field-muted on field                 | 4.5     | 5.83  | 10.14 |
+| field on on-field (button on the field) | 4.5     | 7.64  | 15.55 |
+| on-mark on mark (evidence chip)         | 4.5     | 14.32 | 14.32 |
+| line-strong on paper (control borders)  | 3.0     | 4.10  | 4.15  |
+| signal on paper (focus ring)            | 3.0     | 7.19  | 8.11  |
+| mark on field (focus ring on a field)   | 3.0     | 5.97  | 12.15 |
 
 ## 4. Space, borders, radius, shadows, breakpoints
 
-| Group               | Tokens                                                                                                                                                                                                 |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Spacing (4 px base) | Tailwind's default 4 px scale through its utilities; the only custom token is `--space-section`                                                                                                        |
-| Section rhythm      | `--space-section: clamp(4rem, 3rem + 5vw, 8rem)`                                                                                                                                                       |
-| Gutter              | `1rem` on mobile, `2rem` from `md`                                                                                                                                                                     |
-| Borders             | 1px rules in `line` (`border-line`) and 1px control borders in `line-strong` (`border-line-strong`), as utilities                                                                                      |
-| Radius              | `--radius-control: 2px` (buttons, inputs); `--radius-media: 6px` (screenshot frames). Rules and rows have no radius. Two values on purpose: radius follows the role of the element, not a global style |
-| Shadows             | None. No shadow token exists; focus never uses a shadow                                                                                                                                                |
-| Breakpoints         | `sm 40rem`, `md 48rem`, `lg 64rem`, `xl 80rem` (content max width 80rem)                                                                                                                               |
+| Group               | Tokens                                                                                                                                                                                      |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Spacing (4 px base) | Tailwind's default 4 px scale through its utilities; the only custom token is `--space-section`                                                                                             |
+| Section rhythm      | `--space-section: clamp(4rem, 3rem + 5vw, 8rem)`                                                                                                                                            |
+| Gutter              | `1rem` on mobile, `2rem` from `md`                                                                                                                                                          |
+| Borders             | 1px rules in `line` (`border-line`) and 1px control borders in `line-strong` (`border-line-strong`), as utilities                                                                           |
+| Radius              | `--radius-control: 8px` (buttons, inputs); `--radius-media: 12px` (screenshots, menu); `--radius-panel: 24px` (hero, project panels, contact panel). Radius follows the role of the element |
+| Shadows             | None. No shadow token exists; focus never uses a shadow                                                                                                                                     |
+| Breakpoints         | `sm 40rem`, `md 48rem`, `lg 64rem`, `xl 80rem` (content max width 80rem)                                                                                                                    |
 
 Tailwind CSS 4 is configured CSS-first: these tokens live in `@theme` in `src/styles/global.css`; there is no `tailwind.config` file. Dark mode uses a `data-theme` attribute on `<html>`, with the system preference as the default.
 
@@ -106,7 +95,8 @@ Tailwind CSS 4 is configured CSS-first: these tokens live in `@theme` in `src/st
 Left-aligned throughout. Twelve-column grid at `lg` and above.
 
 - **Prose pages (case studies):** main text in columns 1–7, **margin column** in columns 9–12 for notes. Each note sits level with the claim it supports.
-- **Home:** sections alternate between full-width content (project rows, expertise) and the prose-plus-notes layout (About, Publication).
+- **Home:** from `lg`, each section is a 12-column grid with a sticky heading in columns 1–3 and the content in columns 4–12. Projects is the exception (`wide`): full width, a bento of panels, with Cocktail Lab across the whole row and the other three in equal columns below.
+- **Motion:** one moment on purpose (the hero name widening on load) plus a slow scale on project screenshots on hover, both under `prefers-reduced-motion: no-preference`. Page changes use the CSS-only `@view-transition { navigation: auto; }`, so no script is added.
 - **Below `lg`:** one column. Margin notes appear directly under the paragraph they belong to, set in the secondary text color with a left rule, never hidden.
 
 DOM order puts each note immediately after its claim, so screen-reader and no-CSS reading order are natural; the grid only moves notes sideways visually.
@@ -119,13 +109,13 @@ DOM order puts each note immediately after its claim, so screen-reader and no-CS
 | Diego A. Clavijo        Projects  About  Contact     EN | ES  (o)|
 +------------------------------------------------------------------+
 |                                                                  |
-|  Diego Alejandro                                                 |
+|  (cobalt field panel)   Diego Alejandro                          |
 |  Clavijo Ladino                                                  |
 |                                                                  |
 |  Frontend Software Engineer. Building maintainable, accessible   |
 |  and reliable web applications through thoughtful engineering.   |
 |                                                                  |
-|  [ View projects ]  Download CV (PDF)                            |
+|  [ Contact me ] [ View projects ] Download CV (PDF)  Works with: |
 |                                                                  |
 |  +-----------------------------------+  Coverage                 |
 |  |   Cocktail Lab screenshot         |  89.42% of lines, measured|
@@ -145,9 +135,10 @@ DOM order puts each note immediately after its claim, so screen-reader and no-CS
 |  ---------------------------------------------------------------- |
 |  Weather Finder            Calorie Tracker   (compact rows)      |
 +------------------------------------------------------------------+
-|  Engineering focus   ...   Technical expertise   ...             |
-|  About (prose + notes)     Publication (prose + notes)           |
-|  Contact                                                         |
+|  About (summary, how I work, languages) + Engineering focus      |
+|  Experience (+ Education)   Academic publication   Certifications|
+|  Technical expertise                                             |
+|  [ cobalt panel ] Contact: Email, LinkedIn, GitHub, CV           |
 +------------------------------------------------------------------+
 |  Footer: copyright, EN | ES, repositories, source of this site    |
 +------------------------------------------------------------------+
