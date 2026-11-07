@@ -97,6 +97,16 @@ export const requiredPairs: readonly Pair[] = [
     usage: 'button label on hover',
   },
   { foreground: 'paper', background: 'ink', minimum: 4.5, usage: 'pressed toggle' },
+  { foreground: 'on-field', background: 'field', minimum: 4.5, usage: 'text on the cobalt field' },
+  {
+    foreground: 'on-field-muted',
+    background: 'field',
+    minimum: 4.5,
+    usage: 'secondary text on the field',
+  },
+  { foreground: 'field', background: 'on-field', minimum: 4.5, usage: 'primary button on the field' },
+  { foreground: 'on-mark', background: 'mark', minimum: 4.5, usage: 'evidence chip' },
+  { foreground: 'mark', background: 'field', minimum: 3, usage: 'focus ring on the field' },
   { foreground: 'line-strong', background: 'paper', minimum: 3, usage: 'control borders' },
   { foreground: 'signal', background: 'paper', minimum: 3, usage: 'focus ring' },
 ];
