@@ -20,8 +20,9 @@ const linkClass = 'inline-flex min-h-11 items-center text-ink no-underline hover
  */
 export function SiteHeader({ labels, homeHref, otherLocale, otherLocaleHref }: SiteHeaderProps) {
   const links = [
-    { href: `${homeHref}#projects`, label: labels.nav.projects },
     { href: `${homeHref}#about`, label: labels.nav.about },
+    { href: `${homeHref}#projects`, label: labels.nav.projects },
+    { href: `${homeHref}#experience`, label: labels.nav.experience },
     { href: `${homeHref}#contact`, label: labels.nav.contact },
   ];
 
@@ -45,7 +46,7 @@ export function SiteHeader({ labels, homeHref, otherLocale, otherLocaleHref }: S
             <summary className="inline-flex min-h-11 cursor-pointer items-center font-display font-semibold">
               {labels.nav.menu}
             </summary>
-            <ul className="absolute top-full right-0 z-20 min-w-44 border border-line-strong bg-paper p-2">
+            <ul className="absolute top-full right-0 z-20 min-w-44 rounded-media border border-line-strong bg-paper p-2">
               {links.map((link) => (
                 <li key={link.href}>
                   <a href={link.href} className={linkClass}>
