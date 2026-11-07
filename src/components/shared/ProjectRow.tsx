@@ -9,6 +9,14 @@ interface ExtraLink {
   href: string;
 }
 
+export interface ProjectImage {
+  src: string;
+  srcSet: string;
+  width: number;
+  height: number;
+  alt: string;
+}
+
 interface ProjectRowProps {
   title: string;
   summary: string;
@@ -16,12 +24,13 @@ interface ProjectRowProps {
   statusLabel: string;
   stack: readonly string[];
   emphasizedStack: readonly string[];
-  /** Where the title goes. The whole row is clickable through this link. */
+  /** Where the title goes. The whole panel is clickable through this link. */
   href: string;
   /** Spoken after the title when it leaves the site, e.g. "Repository". */
   destinationLabel?: string;
   extraLinks?: readonly ExtraLink[];
   size: ProjectRowSize;
+  image?: ProjectImage;
   children?: ReactNode;
 }
 
@@ -31,16 +40,10 @@ const titleSize: Record<ProjectRowSize, string> = {
   compact: 'text-h3',
 };
 
-const rowPadding: Record<ProjectRowSize, string> = {
-  featured: 'py-10',
-  standard: 'py-8',
-  compact: 'py-6',
-};
-
 /**
- * A ruled row. One link on the title; a stretched pseudo-element makes the
- * whole row clickable. Hover underlines the title and nudges it, with no
- * elevation.
+ * A project panel. The featured one lays text and screenshot side by side;
+ * the others stack the screenshot above the text. One link on the title; a
+ * stretched pseudo-element makes the whole panel clickable.
  */
 export function ProjectRow({
   title,
@@ -53,17 +56,36 @@ export function ProjectRow({
   destinationLabel,
   extraLinks = [],
   size,
+  image,
   children,
 }: ProjectRowProps) {
   const isExternal = /^https?:\/\//.test(href);
-  return (
-    <article className={`group relative border-t border-line ${rowPadding[size]}`}>
+  const featured = size === 'featured';
+
+  const picture = image && (
+    <div className="overflow-hidden bg-line">
+      <img
+        src={image.src}
+        srcSet={image.srcSet}
+        sizes={featured ? '(min-width: 64rem) 40rem, 100vw' : '(min-width: 64rem) 24rem, 100vw'}
+        width={image.width}
+        height={image.height}
+        alt={image.alt}
+        loading="lazy"
+        decoding="async"
+        className="block h-auto w-full transition-transform duration-[var(--duration-slow)] ease-[var(--ease-out)] motion-safe:group-hover:scale-[1.03]"
+      />
+    </div>
+  );
+
+  const text = (
+    <div className="flex flex-col p-6 md:p-8">
       <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
         <h3 className={`${titleSize[size]} text-ink`}>
           <a
             href={href}
             {...(isExternal ? { rel: 'noopener noreferrer' } : {})}
-            className="inline-block text-ink no-underline transition-transform duration-[var(--duration-base)] ease-[var(--ease-out)] group-hover:translate-x-1 group-hover:underline after:absolute after:inset-0 after:content-['']"
+            className="text-ink no-underline group-hover:underline after:absolute after:inset-0 after:content-['']"
           >
             {title}
             {destinationLabel && <span className="sr-only"> — {destinationLabel}</span>}
@@ -71,8 +93,8 @@ export function ProjectRow({
         </h3>
         <StatusMarker status={status} label={statusLabel} />
       </div>
-      <p className={`mt-3 max-w-[68ch] ${size === 'featured' ? 'text-lede' : ''}`}>{summary}</p>
-      <div className="mt-3">
+      <p className={`mt-3 max-w-[60ch] ${featured ? 'text-lede' : ''}`}>{summary}</p>
+      <div className="mt-4">
         <StackList items={stack} emphasized={emphasizedStack} />
       </div>
       {extraLinks.length > 0 && (
@@ -92,6 +114,21 @@ export function ProjectRow({
         </ul>
       )}
       {children}
+    </div>
+  );
+
+  if (featured) {
+    return (
+      <article className="group relative overflow-hidden rounded-panel bg-surface lg:col-span-6 lg:grid lg:grid-cols-12 lg:items-center">
+        <div className="lg:col-span-5">{text}</div>
+        {picture && <div className="lg:col-span-7">{picture}</div>}
+      </article>
+    );
+  }
+  return (
+    <article className="group relative flex flex-col overflow-hidden rounded-panel bg-surface lg:col-span-2">
+      {picture}
+      {text}
     </article>
   );
 }
