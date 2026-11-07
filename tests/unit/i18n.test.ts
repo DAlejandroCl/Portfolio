@@ -109,9 +109,9 @@ describe('dictionaries', () => {
     const sameInBoth = [
       /^site\.(firstNames|lastNames|shortName)$/,
       /^contact\.(linkedin|github|cv)$/,
-      /^about\.education\.(years|school)$/,
-      /^about\.experience\.1\.name$/,
-      /^about\.certifications\.\d+\.(name|issuer|year)$/,
+      /^experience\.education\.(years|school)$/,
+      /^experience\.items\.1\.name$/,
+      /^certifications\.items\.\d+\.(name|issuer|year)$/,
       /^expertise\.primary\.\d+\.name$/,
       // The language a phrase is written in is a fact about the phrase, not copy to translate.
       /Lang$/,
