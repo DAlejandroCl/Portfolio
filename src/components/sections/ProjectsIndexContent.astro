@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import type { Locale } from '../../i18n/config';
 import { getDictionary } from '../../i18n/utils';
+import { responsiveImage } from '../../lib/responsiveImage';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { ProjectList, type ProjectItem } from '../shared/ProjectList';
 
@@ -15,15 +16,21 @@ const t = getDictionary(locale);
 const entries = (await getCollection('projects', ({ data }) => data.lang === locale)).sort(
   (a, b) => a.data.order - b.data.order,
 );
-const projects: ProjectItem[] = entries.map((entry) => ({
-  slug: entry.id.split('/')[1] ?? entry.id,
-  title: entry.data.title,
-  summary: entry.data.summary,
-  status: entry.data.status,
-  stack: entry.data.stack,
-  repo: entry.data.links.repo,
-  demo: entry.data.links.demo,
-}));
+const projects: ProjectItem[] = await Promise.all(
+  entries.map(async (entry) => ({
+    slug: entry.id.split('/')[1] ?? entry.id,
+    title: entry.data.title,
+    summary: entry.data.summary,
+    status: entry.data.status,
+    stack: entry.data.stack,
+    repo: entry.data.links.repo,
+    demo: entry.data.links.demo,
+    image: {
+      ...(await responsiveImage(entry.data.screenshot, [480, 640, 960, 1280])),
+      alt: entry.data.screenshotAlt,
+    },
+  })),
+);
 ---
 
 <BaseLayout
