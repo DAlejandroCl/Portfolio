@@ -22,6 +22,7 @@ export const es: Dictionary = {
     menu: 'Menú',
     projects: 'Proyectos',
     about: 'Acerca de mí',
+    experience: 'Experiencia',
     contact: 'Contacto',
   },
   theme: {
@@ -32,6 +33,8 @@ export const es: Dictionary = {
       'Construyo aplicaciones web mantenibles, accesibles y confiables a través de una ingeniería cuidadosa.',
     viewProjects: 'Ver proyectos',
     downloadCv: 'Descargar CV (PDF)',
+    contact: 'Contáctame',
+    stackLabel: 'Trabajo con',
   },
   note: {
     verified: 'Verificado',
@@ -123,15 +126,17 @@ export const es: Dictionary = {
   },
   about: {
     title: 'Acerca de mí',
-    educationTitle: 'Educación',
-    education: {
-      degree: 'Ingeniería de Sistemas y Computación',
-      school: 'Universidad Católica de Colombia',
-      schoolLang: 'es',
-      years: '2018–2024',
-    },
-    experienceTitle: 'Experiencia',
-    experience: [
+    summary:
+      'Soy Ingeniero de Sistemas y Computación especializado en desarrollo frontend con React y TypeScript. Diseño software mantenible, escalable y orientado a la calidad, aplicando buenas prácticas de ingeniería para construir productos confiables y centrados en la experiencia del usuario. Comunico las decisiones técnicas con claridad y colaboro activamente en equipos de desarrollo, tanto en proyectos independientes como en trabajo institucional en equipo.',
+    languagesTitle: 'Idiomas',
+    languages: ['Español: nativo', 'Inglés: B2'],
+    approachTitle: 'Cómo trabajo',
+    approach:
+      'Elijo la herramienta más simple que cumpla el requisito, pruebo el comportamiento del que depende la gente y dejo por escrito la razón de cada decisión.',
+  },
+  experience: {
+    title: 'Experiencia',
+    items: [
       {
         name: 'Proyectos independientes de ingeniería de software',
         nameLang: 'es',
@@ -145,9 +150,18 @@ export const es: Dictionary = {
         text: 'Desarrollador web en un proyecto en equipo: construí la sección de galería del sitio web institucional con HTML, CSS y JavaScript.',
       },
     ],
-    certificationsTitle: 'Certificaciones',
+    educationTitle: 'Educación',
+    education: {
+      degree: 'Ingeniería de Sistemas y Computación',
+      school: 'Universidad Católica de Colombia',
+      schoolLang: 'es',
+      years: '2018–2024',
+    },
+  },
+  certifications: {
+    title: 'Certificaciones',
     inProgress: 'En curso',
-    certifications: [
+    items: [
       {
         name: 'React & Full-Stack Development (MERN/PERN)',
         nameLang: 'en',
@@ -170,11 +184,6 @@ export const es: Dictionary = {
         inProgress: false,
       },
     ],
-    languagesTitle: 'Idiomas',
-    languages: ['Español: nativo', 'Inglés: B2'],
-    approachTitle: 'Cómo trabajo',
-    approach:
-      'Elijo la herramienta más simple que cumpla el requisito, pruebo el comportamiento del que depende la gente y dejo por escrito la razón de cada decisión.',
   },
   publication: {
     title: 'Publicación académica',
