@@ -27,6 +27,8 @@ export const profile = {
     { slug: 'cocktail-lab', section: 'accessibility-performance' },
     { slug: 'cocktail-lab', section: 'decisions' },
   ],
+  /** Shown in the hero. Every one of these appears in a case study. */
+  heroStack: ['React', 'TypeScript', 'Zod', 'Vitest', 'Playwright', 'Tailwind CSS'],
   /** React and TypeScript lead; everything else is supporting. */
   primarySkills: ['React', 'TypeScript'],
   supportingSkills: {
