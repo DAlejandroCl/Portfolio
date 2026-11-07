@@ -1,6 +1,6 @@
 import { profile } from '../../data/profile';
 import type { Dictionary } from '../../i18n/dictionaries/en';
-import { Section } from '../shared/Section';
+import { Button } from '../ui/Button';
 
 interface ContactSectionProps {
   labels: Dictionary['contact'];
@@ -8,30 +8,40 @@ interface ContactSectionProps {
   cvHref: string;
 }
 
+/** The closing call to action: the same cobalt field the page opened with. */
 export function ContactSection({ labels, cvHref }: ContactSectionProps) {
-  const links = [
-    { label: labels.email, href: profile.links.email, external: false },
-    { label: labels.linkedin, href: profile.links.linkedin, external: true },
-    { label: labels.github, href: profile.links.github, external: true },
-    { label: labels.cv, href: cvHref, external: false },
-  ];
-
   return (
-    <Section id="contact" title={labels.title}>
-      <p className="max-w-[60ch]">{labels.text}</p>
-      <ul className="mt-4 flex flex-wrap gap-x-8">
-        {links.map((link) => (
-          <li key={link.href}>
-            <a
-              href={link.href}
-              {...(link.external ? { rel: 'noopener noreferrer' } : {})}
-              className="inline-flex min-h-11 items-center font-display font-semibold"
-            >
-              {link.label}
-            </a>
-          </li>
-        ))}
+    <section
+      id="contact"
+      aria-labelledby="contact-heading"
+      className="on-field scroll-mt-8 rounded-panel bg-field px-6 py-12 text-on-field md:px-12 md:py-16"
+    >
+      <h2 id="contact-heading" className="text-h2">
+        {labels.title}
+      </h2>
+      <p className="mt-4 max-w-[52ch] text-lede text-on-field-muted">{labels.text}</p>
+      <ul className="mt-8 flex flex-wrap gap-3">
+        <li>
+          <Button href={profile.links.email} variant="field">
+            {labels.email}
+          </Button>
+        </li>
+        <li>
+          <Button href={profile.links.linkedin} variant="field-outline">
+            {labels.linkedin}
+          </Button>
+        </li>
+        <li>
+          <Button href={profile.links.github} variant="field-outline">
+            {labels.github}
+          </Button>
+        </li>
+        <li>
+          <Button href={cvHref} variant="field-outline">
+            {labels.cv}
+          </Button>
+        </li>
       </ul>
-    </Section>
+    </section>
   );
 }
