@@ -4,11 +4,12 @@ const pages = [
   {
     path: '/',
     sections: [
-      'Projects',
-      'Engineering focus',
-      'Technical expertise',
       'About',
+      'Projects',
+      'Experience',
       'Academic publication',
+      'Certifications',
+      'Technical expertise',
       'Contact',
     ],
     projects: ['Cocktail Lab', 'Streamline Inventory', 'Weather Finder', 'Calorie Tracker'],
@@ -17,11 +18,12 @@ const pages = [
   {
     path: '/es/',
     sections: [
-      'Proyectos',
-      'Enfoque de ingeniería',
-      'Experiencia técnica',
       'Acerca de mí',
+      'Proyectos',
+      'Experiencia',
       'Publicación académica',
+      'Certificaciones',
+      'Experiencia técnica',
       'Contacto',
     ],
     projects: ['Cocktail Lab', 'Streamline Inventory', 'Weather Finder', 'Calorie Tracker'],
