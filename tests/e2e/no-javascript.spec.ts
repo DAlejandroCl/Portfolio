@@ -71,6 +71,6 @@ test.describe('with JavaScript disabled', () => {
     test.skip(!isMobile, 'The disclosure only exists on narrow screens.');
     await page.goto('/');
     await page.getByText('Menu', { exact: true }).click();
-    await expect(page.getByRole('link', { name: 'Contact' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Contact', exact: true })).toBeVisible();
   });
 });
