@@ -141,13 +141,13 @@ test.describe('language of parts (WCAG 3.1.2)', () => {
   test('marks the English titles on the Spanish page', async ({ page }) => {
     await page.goto('/es/');
     await expect(page.locator('#publication a[lang="en"]')).toHaveCount(1);
-    await expect(page.locator('#about [lang="en"]')).toHaveCount(3);
+    await expect(page.locator('#certifications [lang="en"]')).toHaveCount(3);
   });
 
   test('marks the Spanish names on the English page', async ({ page }) => {
     await page.goto('/');
-    const names = await page.locator('#about [lang="es"]').allTextContents();
-    expect(names).toEqual(['Universidad Católica de Colombia', 'Fundación de Levi']);
+    const names = await page.locator('#experience [lang="es"]').allTextContents();
+    expect(names).toEqual(['Fundación de Levi', 'Universidad Católica de Colombia']);
     await expect(page.locator('#publication a[lang]')).toHaveCount(0);
   });
 
